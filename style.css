@@ -45,7 +45,7 @@ header nav a:hover { color:#fff7f0; }
   .product-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
 }
 @media (max-width:400px) {
-  .cart-panel { width:100%; right:-100%; }
+  .cart-panel { width:100%; }
 }
 
 /* ---------- Product Grid ---------- */
@@ -73,13 +73,15 @@ header nav a:hover { color:#fff7f0; }
 .quantity-controls button:disabled { opacity:0.5; cursor:not-allowed; }
 .quantity-controls span { min-width:28px; text-align:center; font-weight:600; }
 
-/* ---------- Cart Panel ---------- */
+/* ---------- Cart Panel (Smooth Slide) ---------- */
 .cart-panel {
-  position:fixed; top:0; right:-300px; width:300px; height:100%; background:#fffaf4;
-  box-shadow:-4px 0 20px rgba(0,0,0,0.25); transition:right 0.3s; padding:20px; z-index:2000;
-  display:flex; flex-direction:column;
+  position: fixed; top:0; right:0; width:300px; height:100%; background:#fffaf4;
+  box-shadow:-4px 0 20px rgba(0,0,0,0.25); padding:20px; z-index:2000; display:flex; flex-direction:column;
+
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
 }
-.cart-panel.active { right:0; }
+.cart-panel.active { transform: translateX(0); }
 .cart-item { display:flex; justify-content:space-between; margin:10px 0; font-weight:500; }
 .cart-summary { font-weight:700; margin-top:15px; }
 .cart-buttons button {
@@ -93,13 +95,12 @@ header nav a:hover { color:#fff7f0; }
 .overlay.active { display:block; }
 
 /* ---------- Modal ---------- */
-.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:3000; justify-content:center; align-items:center; padding:15px; }
-.modal-content {
-  background:#fffaf4; border-radius:20px; padding:20px; max-width:380px; width:100%;
-  box-shadow:0 10px 25px rgba(0,0,0,0.25); display:flex; flex-direction:column; align-items:center;
-  animation:fadeIn 0.3s ease-out; position:relative;
+.modal {
+  display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);
+  z-index:3000; justify-content:center; align-items:center; padding:15px;
 }
-@keyframes fadeIn { from{opacity:0; transform:scale(0.85);} to{opacity:1; transform:scale(1);} }
+.modal-content { background:#fffaf4; border-radius:20px; padding:20px; max-width:380px; width:100%; display:flex; flex-direction:column; align-items:center; animation:fadeIn 0.3s ease-out; position:relative; }
+@keyframes fadeIn { from {opacity:0; transform:scale(0.85);} to {opacity:1; transform:scale(1);} }
 .modal-content img { width:100%; border-radius:15px; margin-bottom:15px; }
 #closeProductModal { position:absolute; top:10px; right:15px; font-size:26px; background:transparent; color:#e07b39; font-weight:700; cursor:pointer; }
 #closeProductModal:hover { color:#c4622a; }
@@ -117,4 +118,6 @@ header nav a:hover { color:#fff7f0; }
 footer { text-align:center; padding:20px; background:#e07b39; color:#fff; }
 
 /* ---------- WhatsApp Floating Button ---------- */
-.whatsapp-float { position:fixed; bottom:20px; right:20px; background:#25d366; color:white; font-size:28px; border-radius:50%; padding:14px 16px; box-shadow:0 4px 8px rgba(0,0,0,0.2); text-decoration:none; z-index:2500; }
+.whatsapp-float {
+  position:fixed; bottom:20px; right:20px; background:#25d366; color:white; font-size:28px; border-radius:50%; padding:14px 16px; box-shadow:0 4px 8px rgba(0,0,0,0.2); text-decoration:none; z-index:2500;
+}
