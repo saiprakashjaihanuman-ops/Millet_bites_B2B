@@ -24,6 +24,10 @@ header h1 {
   font-family: 'Georgia', serif;
   color: #f2d1a1;
 }
+header a h1 {
+  text-decoration: none; /* no underline */
+  color: #fff8f0;        /* soft cream */
+}
 header nav a {
   color: white;
   margin: 0 15px;
