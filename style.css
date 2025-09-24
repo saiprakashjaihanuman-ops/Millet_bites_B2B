@@ -1,10 +1,15 @@
 /* ---------- Global ---------- */
-body {
+* {
+  box-sizing: border-box;
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #fffdf9;
-  color: #4b3621;
-  line-height: 1.6;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #fffefc;
+  color: #3e2f20;
+  line-height: 1.5;
 }
 
 a {
@@ -14,69 +19,62 @@ a {
 
 button {
   font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  border: none;
 }
 
 /* ---------- Header ---------- */
 header {
-  background: #d2691e;
+  background: #e07b39;
   color: white;
-  padding: 15px 20px;
+  padding: 15px 25px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
 }
 
 header h1 {
-  margin: 0;
   font-size: 24px;
-  font-weight: bold;
-}
-
-header nav {
-  display: flex;
-  gap: 20px;
-  align-items: center;
+  font-weight: 700;
 }
 
 header nav a {
-  color: white;
+  margin-left: 20px;
   font-weight: 500;
-  padding: 6px 12px;
-  border-radius: 8px;
-  transition: background 0.3s;
+  transition: 0.3s;
 }
 
 header nav a:hover {
-  background: rgba(255,255,255,0.2);
+  color: #fff7f0;
 }
 
 .cart-icon {
-  cursor: pointer;
   position: relative;
-  margin-left: 15px;
+  margin-left: 20px;
 }
 
 .cart-count {
-  background: white;
-  color: #d2691e;
-  font-weight: bold;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 12px;
   position: absolute;
   top: -8px;
-  right: -10px;
+  right: -12px;
+  background: white;
+  color: #e07b39;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 50%;
 }
 
 /* ---------- Hero Section ---------- */
 .hero {
   position: relative;
   background: url('hero-bg.jpg') center/cover no-repeat;
-  height: 400px;
+  height: 380px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -84,8 +82,9 @@ header nav a:hover {
 
 .hero-overlay {
   position: absolute;
-  top:0; left:0; width:100%; height:100%;
-  background: rgba(210,105,30,0.6);
+  width: 100%;
+  height: 100%;
+  background: rgba(224,123,57,0.5);
 }
 
 .hero-text {
@@ -98,6 +97,7 @@ header nav a:hover {
 .hero-text h2 {
   font-size: 36px;
   margin-bottom: 10px;
+  font-weight: 700;
 }
 
 .hero-text p {
@@ -106,22 +106,22 @@ header nav a:hover {
 }
 
 .hero-btn {
-  padding: 12px 28px;
   background: #fff;
-  color: #d2691e;
-  font-weight: bold;
+  color: #e07b39;
+  padding: 12px 28px;
   border-radius: 25px;
-  transition: background 0.3s, color 0.3s;
+  font-weight: 600;
+  transition: 0.3s;
 }
 
 .hero-btn:hover {
-  background: #d2691e;
+  background: #e07b39;
   color: #fff;
 }
 
 /* ---------- Menu Section ---------- */
 .menu {
-  padding: 40px 20px;
+  padding: 50px 20px;
   max-width: 1200px;
   margin: auto;
 }
@@ -135,47 +135,43 @@ header nav a:hover {
 
 .search-container {
   display: flex;
-  justify-content: flex-start;
   gap: 10px;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
 }
 
 .search-container input {
   flex: 1;
-  padding: 10px 15px;
-  border: 1px solid #d2c0b0;
-  border-radius: 20px;
-  outline: none;
+  padding: 12px 15px;
+  border-radius: 25px;
+  border: 1px solid #e0d3c3;
 }
 
 .search-container button {
-  padding: 10px 20px;
-  border-radius: 20px;
-  border: none;
-  background: #d2691e;
-  color: white;
-  cursor: pointer;
-  transition: background 0.3s;
+  padding: 12px 20px;
+  border-radius: 25px;
+  background: #e07b39;
+  color: #fff;
+  font-weight: 600;
+  transition: 0.3s;
 }
 
 .search-container button:hover {
-  background: #b55416;
+  background: #c4622a;
 }
 
 /* ---------- Product Grid ---------- */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
+  gap: 25px;
 }
 
 .product-card {
-  background: #fff8f0;
+  background: #fffaf4;
   border-radius: 20px;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
   padding: 15px;
   text-align: center;
-  position: relative;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   transition: transform 0.2s, box-shadow 0.3s;
 }
 
@@ -187,32 +183,32 @@ header nav a:hover {
 .product-card img {
   width: 100%;
   height: 160px;
-  object-fit: cover;
   border-radius: 15px;
+  object-fit: cover;
   cursor: pointer;
 }
 
 .product-card h4 {
   margin: 10px 0 5px;
+  font-weight: 600;
   cursor: pointer;
 }
 
 .product-card p {
-  margin: 5px 0;
   font-weight: 500;
+  margin-bottom: 10px;
 }
 
-.product-card .badge {
+.badge {
   position: absolute;
   top: 12px;
   left: 12px;
-  background: #d2691e;
-  color: white;
+  background: #e07b39;
+  color: #fff;
   padding: 4px 8px;
   font-size: 12px;
   border-radius: 12px;
-  font-weight: bold;
-  pointer-events: none;
+  font-weight: 600;
 }
 
 /* ---------- Quantity Controls ---------- */
@@ -220,32 +216,28 @@ header nav a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
-  margin-top: 12px;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .quantity-controls button {
-  width: 40px;
-  height: 40px;
-  border: none;
+  width: 38px;
+  height: 38px;
   border-radius: 12px;
-  background: #d2691e;
+  background: #e07b39;
   color: white;
-  font-size: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s;
+  font-weight: 600;
+  transition: 0.3s;
 }
 
 .quantity-controls button:hover {
-  background: #b55416;
+  background: #c4622a;
 }
 
 .quantity-controls span {
-  font-size: 18px;
-  font-weight: bold;
   min-width: 30px;
   text-align: center;
+  font-weight: 600;
 }
 
 /* ---------- Cart Panel ---------- */
@@ -255,9 +247,9 @@ header nav a:hover {
   right: -380px;
   width: 380px;
   height: 100%;
-  background: #fff8f0;
+  background: #fffaf4;
   box-shadow: -4px 0 20px rgba(0,0,0,0.25);
-  transition: right 0.3s ease;
+  transition: right 0.3s;
   padding: 25px;
   z-index: 2000;
   display: flex;
@@ -268,59 +260,30 @@ header nav a:hover {
   right: 0;
 }
 
-.cart-panel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.cart-panel-header h3 {
-  margin: 0;
-  font-size: 20px;
-}
-
-.close-cart {
-  font-size: 24px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: #d2691e;
-}
-
-.cart-items {
-  flex: 1;
-  overflow-y: auto;
-}
-
 .cart-item {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin: 10px 0;
-  font-size: 16px;
+  margin: 12px 0;
+  font-weight: 500;
 }
 
 .cart-summary {
-  font-weight: bold;
-  margin-top: 15px;
+  font-weight: 700;
+  margin-top: 20px;
 }
 
 .cart-buttons button {
-  background: #d2691e;
-  color: white;
-  border: none;
+  width: 100%;
   padding: 12px;
   border-radius: 12px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 10px;
-  width: 100%;
-  transition: background 0.3s;
+  font-weight: 600;
+  background: #e07b39;
+  color: #fff;
+  transition: 0.3s;
 }
 
 .cart-buttons button:hover {
-  background: #b55416;
+  background: #c4622a;
 }
 
 /* ---------- Overlay ---------- */
@@ -354,62 +317,59 @@ header nav a:hover {
 }
 
 .modal-content {
-  background: #fff8f0;
+  background: #fffaf4;
   border-radius: 20px;
   padding: 25px;
   max-width: 400px;
   width: 100%;
-  box-shadow: 0 10px 25px rgba(107,79,60,0.3);
-  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation: modalFade 0.3s ease-out;
+  animation: fadeIn 0.3s ease-out;
 }
 
-@keyframes modalFade {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+@keyframes fadeIn {
+  from { opacity:0; transform: scale(0.85);}
+  to { opacity:1; transform: scale(1);}
 }
 
 .modal-content img {
   width: 100%;
   border-radius: 15px;
   margin-bottom: 20px;
-  object-fit: cover;
 }
 
 #closeProductModal {
   position: absolute;
-  top: 12px;
+  top: 10px;
   right: 15px;
-  cursor: pointer;
   font-size: 26px;
   background: transparent;
-  border: none;
-  color: #d2691e;
-  font-weight: bold;
-  transition: color 0.3s;
+  color: #e07b39;
+  font-weight: 700;
+  cursor: pointer;
 }
-#closeProductModal:hover { color:#b55416; }
+
+#closeProductModal:hover { color:#c4622a; }
 
 .modal-content h2 {
-  font-size: 22px;
   margin-bottom: 8px;
   text-align: center;
+  font-weight: 700;
+  font-size: 22px;
 }
 
 .modal-content p {
-  font-size: 16px;
   margin-bottom: 8px;
   text-align: center;
 }
 
 /* ---------- Contact ---------- */
 .contact {
-  padding: 40px 20px;
+  padding: 50px 20px;
   text-align: center;
-  background: #fdf6f1;
+  background: #fff6f0;
 }
 
 .contact h2 {
@@ -420,7 +380,7 @@ header nav a:hover {
 .contact-icons {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 25px;
   margin-top: 20px;
 }
 
@@ -431,15 +391,15 @@ header nav a:hover {
 }
 
 .contact-icons img:hover {
-  transform: scale(1.1);
+  transform: scale(1.15);
 }
 
 /* ---------- Footer ---------- */
 footer {
   text-align: center;
   padding: 20px;
-  background: #d2691e;
-  color: white;
+  background: #e07b39;
+  color: #fff;
 }
 
 /* ---------- WhatsApp Floating Button ---------- */
@@ -469,10 +429,6 @@ footer {
 
   .hero-text p {
     font-size: 16px;
-  }
-
-  header nav {
-    gap: 10px;
   }
 }
 
