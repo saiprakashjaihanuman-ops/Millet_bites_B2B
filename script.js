@@ -30,17 +30,13 @@ function renderProducts() {
       <h4>${p.name}</h4>
       <p>₹${p.price}</p>
       <div class="quantity-controls">
-        <button id="minus-${id}">-</button>
+        <button onclick="removeFromCart('${p.name}')">-</button>
         <span id="qty-${id}">${cart[p.name]?cart[p.name].qty:0}</span>
         <button onclick="addToCart('${p.name}',${p.price})">+</button>
       </div>`;
     grid.appendChild(card);
-
-    // Event listeners
     card.querySelector('img').addEventListener('click',()=>openProductModal(p));
     card.querySelector('h4').addEventListener('click',()=>openProductModal(p));
-    const minusBtn = card.querySelector(`#minus-${id}`);
-    minusBtn.addEventListener('click', ()=> removeFromCart(p.name));
   });
 }
 
@@ -59,10 +55,7 @@ function removeFromCart(name){
 }
 function updateQty(name){ 
   const el=document.getElementById("qty-"+safeId(name)); 
-  const minusBtn = document.getElementById("minus-"+safeId(name));
-  const qty = cart[name]?cart[name].qty:0;
-  if(el) el.textContent = qty;
-  if(minusBtn) minusBtn.disabled = qty === 0;
+  if(el) el.textContent=cart[name]?cart[name].qty:0; 
 }
 function updateCart(){
   const container=document.getElementById("panel-cart-items"); 
@@ -100,8 +93,7 @@ function toggleCartPanel(){
 
 document.addEventListener("DOMContentLoaded",()=>{
   renderProducts();
-  document.getElementById("cartIcon").addEventListener("click",toggleCartPanel);
-  document.getElementById("cartIcon2").addEventListener("click",toggleCartPanel);
+  document.querySelectorAll(".cart-icon").forEach(el=>el.addEventListener("click",toggleCartPanel));
   document.getElementById("closeCart").addEventListener("click",toggleCartPanel);
   document.getElementById("overlay").addEventListener("click",toggleCartPanel);
   document.querySelector(".clear").addEventListener("click",()=>{
@@ -130,46 +122,30 @@ function openProductModal(p){
   modalName.textContent=p.name;
   modalPrice.textContent="₹"+p.price;
   modalDescription.textContent=p.description;
-  const qty = cart[p.name]?cart[p.name].qty:0;
-  modalQty.textContent = qty;
-  modalRemove.disabled = qty === 0;
+  modalQty.textContent=cart[p.name]?cart[p.name].qty:0;
   modal.style.display="flex";
-  modal.setAttribute("aria-hidden","false");
 }
-closeModal.addEventListener("click",()=>{ 
-  modal.style.display="none";
-  modal.setAttribute("aria-hidden","true");
-});
+closeModal.addEventListener("click",()=>modal.style.display="none");
 modalAdd.addEventListener("click",()=>{ 
   if(!currentProduct) return; 
   addToCart(currentProduct.name,currentProduct.price); 
-  const qty = cart[currentProduct.name]?cart[currentProduct.name].qty:0;
-  modalQty.textContent = qty;
-  modalRemove.disabled = qty === 0;
+  modalQty.textContent=cart[currentProduct.name]?cart[currentProduct.name].qty:0; 
 });
 modalRemove.addEventListener("click",()=>{ 
   if(!currentProduct) return; 
   removeFromCart(currentProduct.name); 
-  const qty = cart[currentProduct.name]?cart[currentProduct.name].qty:0;
-  modalQty.textContent = qty;
-  modalRemove.disabled = qty === 0;
+  modalQty.textContent=cart[currentProduct.name]?cart[currentProduct.name].qty:0; 
 });
-window.addEventListener("click",e=>{ 
-  if(e.target===modal) {
-    modal.style.display="none";
-    modal.setAttribute("aria-hidden","true");
-  }
-});
+window.addEventListener("click",e=>{ if(e.target===modal) modal.style.display="none"; });
 
 /* ---------- WhatsApp Pay ---------- */
 function sendOrder(){
   if(Object.keys(cart).length===0){ alert("Cart empty!"); return;}
-  let text="*Order from Millet Bites*\n";
+  let text="*Order from Millet Bites*%0A";
   for(let name in cart){ 
-    text+=`${name} x${cart[name].qty} = ₹${(cart[name].qty*cart[name].price).toFixed(2)}\n`; 
+    text+=`${name} x${cart[name].qty} = ₹${(cart[name].qty*cart[name].price).toFixed(2)}%0A`; 
   }
   const total=Object.keys(cart).reduce((sum,name)=>sum+cart[name].qty*cart[name].price,0);
   text+="Total: ₹"+total.toFixed(2);
-  const encodedText = encodeURIComponent(text);
-  window.open(`https://wa.me/919949840365?text=${encodedText}`,"_blank");
+  window.open(`https://wa.me/919949840365?text=${text}`,"_blank");
 }
