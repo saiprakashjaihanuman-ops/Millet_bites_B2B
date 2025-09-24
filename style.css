@@ -1,9 +1,19 @@
 /* ---------- Global ---------- */
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #fffdf9;
   color: #4b3621;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
 }
 
 /* ---------- Header ---------- */
@@ -17,11 +27,13 @@ header {
   position: sticky;
   top: 0;
   z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
 header h1 {
   margin: 0;
-  font-size: 22px;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 header nav {
@@ -30,10 +42,22 @@ header nav {
   align-items: center;
 }
 
+header nav a {
+  color: white;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+header nav a:hover {
+  background: rgba(255,255,255,0.2);
+}
+
 .cart-icon {
   cursor: pointer;
-  font-size: 22px;
   position: relative;
+  margin-left: 15px;
 }
 
 .cart-count {
@@ -48,33 +72,123 @@ header nav {
   right: -10px;
 }
 
+/* ---------- Hero Section ---------- */
+.hero {
+  position: relative;
+  background: url('hero-bg.jpg') center/cover no-repeat;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  top:0; left:0; width:100%; height:100%;
+  background: rgba(210,105,30,0.6);
+}
+
+.hero-text {
+  position: relative;
+  text-align: center;
+  color: #fff;
+  z-index: 2;
+}
+
+.hero-text h2 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.hero-text p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.hero-btn {
+  padding: 12px 28px;
+  background: #fff;
+  color: #d2691e;
+  font-weight: bold;
+  border-radius: 25px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.hero-btn:hover {
+  background: #d2691e;
+  color: #fff;
+}
+
+/* ---------- Menu Section ---------- */
+.menu {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.search-container input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #d2c0b0;
+  border-radius: 20px;
+  outline: none;
+}
+
+.search-container button {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background: #d2691e;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.search-container button:hover {
+  background: #b55416;
+}
+
 /* ---------- Product Grid ---------- */
-#product-grid {
+.product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 20px;
-  padding: 20px;
 }
 
 .product-card {
   background: #fff8f0;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 20px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
   padding: 15px;
   text-align: center;
   position: relative;
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.3s;
 }
 
 .product-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
 }
 
 .product-card img {
   width: 100%;
   height: 160px;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 15px;
   cursor: pointer;
 }
 
@@ -85,44 +199,42 @@ header nav {
 
 .product-card p {
   margin: 5px 0;
+  font-weight: 500;
 }
 
 .product-card .badge {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 12px;
+  left: 12px;
   background: #d2691e;
   color: white;
   padding: 4px 8px;
   font-size: 12px;
-  border-radius: 8px;
+  border-radius: 12px;
   font-weight: bold;
   pointer-events: none;
 }
 
-/* ---------- Quantity Controls (Shared) ---------- */
+/* ---------- Quantity Controls ---------- */
 .quantity-controls {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px;
-  margin-top: 10px;
+  gap: 12px;
+  margin-top: 12px;
 }
 
 .quantity-controls button {
   width: 40px;
   height: 40px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   background: #d2691e;
   color: white;
   font-size: 20px;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.3s;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  transition: background 0.3s;
 }
 
 .quantity-controls button:hover {
@@ -140,13 +252,13 @@ header nav {
 .cart-panel {
   position: fixed;
   top: 0;
-  right: -350px;
-  width: 350px;
+  right: -380px;
+  width: 380px;
   height: 100%;
   background: #fff8f0;
-  box-shadow: -4px 0 10px rgba(0,0,0,0.2);
+  box-shadow: -4px 0 20px rgba(0,0,0,0.25);
   transition: right 0.3s ease;
-  padding: 20px;
+  padding: 25px;
   z-index: 2000;
   display: flex;
   flex-direction: column;
@@ -154,6 +266,26 @@ header nav {
 
 .cart-panel.active {
   right: 0;
+}
+
+.cart-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.cart-panel-header h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.close-cart {
+  font-size: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #d2691e;
 }
 
 .cart-items {
@@ -166,7 +298,7 @@ header nav {
   justify-content: space-between;
   align-items: center;
   margin: 10px 0;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .cart-summary {
@@ -178,12 +310,13 @@ header nav {
   background: #d2691e;
   color: white;
   border: none;
-  padding: 10px;
+  padding: 12px;
   border-radius: 12px;
   font-size: 16px;
   cursor: pointer;
   margin-top: 10px;
   width: 100%;
+  transition: background 0.3s;
 }
 
 .cart-buttons button:hover {
@@ -213,18 +346,18 @@ header nav {
   left:0;
   width:100%;
   height:100%;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.5);
   z-index:3000;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 15px;
 }
 
 .modal-content {
   background: #fff8f0;
   border-radius: 20px;
   padding: 25px;
-  max-width: 420px;
+  max-width: 400px;
   width: 100%;
   box-shadow: 0 10px 25px rgba(107,79,60,0.3);
   position: relative;
@@ -254,44 +387,59 @@ header nav {
   font-size: 26px;
   background: transparent;
   border: none;
-  color: #d2691e; /* ✅ more visible */
+  color: #d2691e;
   font-weight: bold;
   transition: color 0.3s;
 }
 #closeProductModal:hover { color:#b55416; }
 
-.modal-content h2 { 
-  font-size: 24px; 
-  margin: 10px 0; 
-  text-align: center; 
-  color: #4b3621; 
-}
-.modal-content p { 
-  font-size: 16px; 
-  margin: 6px 0; 
-  color: #4b3621; 
-  text-align: center; 
+.modal-content h2 {
+  font-size: 22px;
+  margin-bottom: 8px;
+  text-align: center;
 }
 
-/* Override for modal quantity controls (slightly bigger) */
-.modal-content .quantity-controls {
+.modal-content p {
+  font-size: 16px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+/* ---------- Contact ---------- */
+.contact {
+  padding: 40px 20px;
+  text-align: center;
+  background: #fdf6f1;
+}
+
+.contact h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.contact-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
   margin-top: 20px;
 }
 
-.modal-content .quantity-controls button {
-  width: 45px;
-  height: 45px;
-  border-radius: 12px;
-  font-size: 22px;
+.contact-icons img {
+  width: 50px;
+  height: 50px;
+  transition: transform 0.3s;
 }
 
-.modal-content .quantity-controls span {
-  font-size: 20px;
-  min-width: 40px;
-  height: 45px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.contact-icons img:hover {
+  transform: scale(1.1);
+}
+
+/* ---------- Footer ---------- */
+footer {
+  text-align: center;
+  padding: 20px;
+  background: #d2691e;
+  color: white;
 }
 
 /* ---------- WhatsApp Floating Button ---------- */
@@ -310,6 +458,24 @@ header nav {
 }
 
 /* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+
+  .hero-text h2 {
+    font-size: 28px;
+  }
+
+  .hero-text p {
+    font-size: 16px;
+  }
+
+  header nav {
+    gap: 10px;
+  }
+}
+
 @media (max-width: 400px) {
   .cart-panel {
     width: 100%;
