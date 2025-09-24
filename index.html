@@ -10,8 +10,10 @@
 </head>
 <body>
 
+  <!-- Overlay -->
   <div class="overlay" id="overlay"></div>
 
+  <!-- Cart Panel -->
   <div class="cart-panel" id="cartPanel">
     <div class="cart-panel-header">
       <h3>Your Cart</h3>
@@ -29,6 +31,7 @@
     </div>
   </div>
 
+  <!-- Header -->
   <header>
     <a href="#menu"><h1>Millet Bites</h1></a>
     <div class="header-right">
@@ -43,6 +46,7 @@
     </div>
   </header>
 
+  <!-- Menu Section -->
   <section id="menu" class="menu">
     <div class="menu-header">
       <h2>Our Menu</h2>
@@ -52,10 +56,10 @@
       </div>
     </div>
 
-    <!-- Only product grid -->
     <div class="product-grid" id="product-grid" style="margin-top:30px;"></div>
   </section>
 
+  <!-- Contact Section -->
   <section id="contact" class="contact">
     <h2>Contact Us</h2>
     <p>Reach us on:</p>
@@ -72,31 +76,32 @@
     </div>
   </section>
 
+  <!-- Footer -->
   <footer>
     <p>&copy; 2025 Millet Bites. All rights reserved.</p>
   </footer>
 
+  <!-- WhatsApp Floating Button -->
   <a href="https://wa.me/919949840365" 
      class="whatsapp-float" 
      target="_blank" 
      aria-label="Chat with us on WhatsApp">💬</a>
 
-<!-- Product Modal -->
-<div id="productModal" class="modal">
-  <div class="modal-content">
-    <button id="closeProductModal" aria-label="Close modal">&times;</button>
-    <img id="modalImage" src="" alt="">
-    <h2 id="modalName"></h2>
-    <p id="modalPrice"></p>
-    <p id="modalDescription"></p>
-    <div class="quantity-controls">
-      <button id="modalRemoveBtn">-</button>
-      <span id="modalQty">0</span>
-      <button id="modalAddBtn">+</button>
+  <!-- Product Modal -->
+  <div id="productModal" class="modal">
+    <div class="modal-content">
+      <button id="closeProductModal" aria-label="Close modal">&times;</button>
+      <img id="modalImage" src="" alt="">
+      <h2 id="modalName"></h2>
+      <p id="modalPrice"></p>
+      <p id="modalDescription"></p>
+      <div class="quantity-controls">
+        <button id="modalRemoveBtn">-</button>
+        <span id="modalQty">0</span>
+        <button id="modalAddBtn">+</button>
+      </div>
     </div>
   </div>
-</div>
-
 
   <script src="script.js"></script>
 </body>
