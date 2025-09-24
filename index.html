@@ -1,17 +1,19 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Buy Millet snacks online: Combo packs, weight-based items, and more. Fast delivery.">
+  <title>Millet Bites</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="bites.png">
-  <title>Millet Bites</title>
 </head>
 <body>
 
+  <!-- Overlay -->
   <div class="overlay" id="overlay"></div>
 
+  <!-- Cart Panel -->
   <div class="cart-panel" id="cartPanel">
     <div class="cart-panel-header">
       <h3>Your Cart</h3>
@@ -20,47 +22,55 @@
     <div class="cart-items" id="panel-cart-items">
       <div class="empty-cart">Your cart is empty</div>
     </div>
-    <div class="cart-summary">
-      <p>Total: ₹0.00</p>
-    </div>
+    <div class="cart-summary"><p>Total: ₹0.00</p></div>
     <div class="cart-buttons">
       <button onclick="sendOrder()">Pay Now</button>
       <button class="clear">Clear Cart</button>
     </div>
   </div>
 
+  <!-- Header -->
   <header>
-    <a href="#menu"><h1>Millet Bites</h1></a>
+    <a href="#home"><h1>Millet Bites</h1></a>
     <div class="header-right">
       <nav>
         <a href="#menu">Menu</a>
         <a href="#contact">Contact</a>
       </nav>
       <div class="cart-icon" id="cartIcon">
-        <img src="cart.png" width="60" height="60" alt="Cart">
+        <img src="cart.png" alt="Cart">
         <span class="cart-count" id="cartCount">0</span>
       </div>
     </div>
   </header>
 
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-text">
+      <h2>Healthy & Tasty Millet Snacks</h2>
+      <p>Nutritious bites for every occasion</p>
+      <a href="#menu" class="hero-btn">Shop Now</a>
+    </div>
+  </section>
+
+  <!-- Menu Section -->
   <section id="menu" class="menu">
     <div class="menu-header">
       <h2>Our Menu</h2>
       <div class="cart-icon" id="cartIcon2">
-        <img src="cart.png" width="60" height="60" alt="Cart">
+        <img src="cart.png" alt="Cart">
         <span class="cart-count" id="cartCount2">0</span>
       </div>
     </div>
-
     <div class="search-container">
       <input type="text" id="searchInput" placeholder="Search products..." oninput="filterProducts()">
       <button onclick="clearSearch()">Clear</button>
     </div>
-
     <div class="product-grid" id="category-grid"></div>
-    <div class="product-grid" id="product-grid" style="margin-top:30px;"></div>
+    <div class="product-grid" id="product-grid"></div>
   </section>
 
+  <!-- Contact -->
   <section id="contact" class="contact">
     <h2>Contact Us</h2>
     <p>Reach us on:</p>
@@ -77,27 +87,10 @@
     </div>
   </section>
 
+  <!-- Footer -->
   <footer>
     <p>&copy; 2025 Millet Bites. All rights reserved.</p>
   </footer>
-
-  <a href="https://wa.me/919949840365" class="whatsapp-float" target="_blank">💬</a>
-
-  <!-- Product Modal -->
-  <div id="productModal" class="modal">
-    <div class="modal-content">
-      <span id="closeProductModal">&times;</span>
-      <img id="modalImage" src="" alt="">
-      <h2 id="modalName"></h2>
-      <p id="modalPrice"></p>
-      <p id="modalDescription"></p>
-      <div class="quantity-controls">
-        <button id="modalRemoveBtn">-</button>
-        <span id="modalQty">0</span>
-        <button id="modalAddBtn">+</button>
-      </div>
-    </div>
-  </div>
 
   <script src="script.js"></script>
 </body>
