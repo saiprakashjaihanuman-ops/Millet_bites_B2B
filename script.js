@@ -30,13 +30,17 @@ function renderProducts() {
       <h4>${p.name}</h4>
       <p>₹${p.price}</p>
       <div class="quantity-controls">
-        <button onclick="removeFromCart('${p.name}')">-</button>
+        <button id="minus-${id}">-</button>
         <span id="qty-${id}">${cart[p.name]?cart[p.name].qty:0}</span>
         <button onclick="addToCart('${p.name}',${p.price})">+</button>
       </div>`;
     grid.appendChild(card);
+
+    // Event listeners
     card.querySelector('img').addEventListener('click',()=>openProductModal(p));
     card.querySelector('h4').addEventListener('click',()=>openProductModal(p));
+    const minusBtn = card.querySelector(`#minus-${id}`);
+    minusBtn.addEventListener('click', ()=> removeFromCart(p.name));
   });
 }
 
@@ -55,7 +59,10 @@ function removeFromCart(name){
 }
 function updateQty(name){ 
   const el=document.getElementById("qty-"+safeId(name)); 
-  if(el) el.textContent=cart[name]?cart[name].qty:0; 
+  const minusBtn = document.getElementById("minus-"+safeId(name));
+  const qty = cart[name]?cart[name].qty:0;
+  if(el) el.textContent = qty;
+  if(minusBtn) minusBtn.disabled = qty === 0;
 }
 function updateCart(){
   const container=document.getElementById("panel-cart-items"); 
@@ -83,8 +90,7 @@ function updateCart(){
 }
 function updateCartCount(){ 
   const count=Object.values(cart).reduce((sum,item)=>sum+item.qty,0); 
-  document.getElementById("cartCount").textContent=count; 
-  document.getElementById("cartCount2").textContent=count; 
+  document.querySelectorAll(".cart-count").forEach(el=>el.textContent=count); 
 }
 
 function toggleCartPanel(){ 
@@ -120,34 +126,50 @@ let currentProduct=null;
 function openProductModal(p){
   currentProduct=p;
   modalImg.src=p.image;
-  modalImg.alt=p.name;  // ✅ Fix accessibility
+  modalImg.alt=p.name;
   modalName.textContent=p.name;
   modalPrice.textContent="₹"+p.price;
   modalDescription.textContent=p.description;
-  modalQty.textContent=cart[p.name]?cart[p.name].qty:0;
+  const qty = cart[p.name]?cart[p.name].qty:0;
+  modalQty.textContent = qty;
+  modalRemove.disabled = qty === 0;
   modal.style.display="flex";
+  modal.setAttribute("aria-hidden","false");
 }
-closeModal.addEventListener("click",()=>modal.style.display="none");
+closeModal.addEventListener("click",()=>{ 
+  modal.style.display="none";
+  modal.setAttribute("aria-hidden","true");
+});
 modalAdd.addEventListener("click",()=>{ 
   if(!currentProduct) return; 
   addToCart(currentProduct.name,currentProduct.price); 
-  modalQty.textContent=cart[currentProduct.name]?cart[currentProduct.name].qty:0; 
+  const qty = cart[currentProduct.name]?cart[currentProduct.name].qty:0;
+  modalQty.textContent = qty;
+  modalRemove.disabled = qty === 0;
 });
 modalRemove.addEventListener("click",()=>{ 
   if(!currentProduct) return; 
   removeFromCart(currentProduct.name); 
-  modalQty.textContent=cart[currentProduct.name]?cart[currentProduct.name].qty:0; 
+  const qty = cart[currentProduct.name]?cart[currentProduct.name].qty:0;
+  modalQty.textContent = qty;
+  modalRemove.disabled = qty === 0;
 });
-window.addEventListener("click",e=>{ if(e.target===modal) modal.style.display="none"; });
+window.addEventListener("click",e=>{ 
+  if(e.target===modal) {
+    modal.style.display="none";
+    modal.setAttribute("aria-hidden","true");
+  }
+});
 
 /* ---------- WhatsApp Pay ---------- */
 function sendOrder(){
   if(Object.keys(cart).length===0){ alert("Cart empty!"); return;}
-  let text="*Order from Millet Bites*%0A";
+  let text="*Order from Millet Bites*\n";
   for(let name in cart){ 
-    text+=`${name} x${cart[name].qty} = ₹${(cart[name].qty*cart[name].price).toFixed(2)}%0A`; 
+    text+=`${name} x${cart[name].qty} = ₹${(cart[name].qty*cart[name].price).toFixed(2)}\n`; 
   }
   const total=Object.keys(cart).reduce((sum,name)=>sum+cart[name].qty*cart[name].price,0);
   text+="Total: ₹"+total.toFixed(2);
-  window.open(`https://wa.me/919949840365?text=${text}`,"_blank");
+  const encodedText = encodeURIComponent(text);
+  window.open(`https://wa.me/919949840365?text=${encodedText}`,"_blank");
 }
