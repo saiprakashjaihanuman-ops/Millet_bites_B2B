@@ -1,195 +1,175 @@
-/* ---------- Products ---------- */
 const products = [
-  { name: "Combo Pack 1", image: "b1.jpeg", price: 999, category: "combo" },
-  { name: "Combo Pack 2", image: "b2.jpeg", price: 299, category: "combo" },
-  { name: "Combo Pack 3", image: "b3.jpeg", price: 399, category: "combo" },
-  { name: "Combo Pack 4", image: "b4.jpeg", price: 599, category: "combo" },
-  { name: "Ragi Mixture", image: "Ragi Mixture.jpeg", price: 60, category: "hots" },
-  { name: "Ragi Chegodilu", image: "Ragi Chegodilu.jpeg", price: 60, category: "hots" },
-  { name: "Ragi Murukkulu", image: "Ragi Murukkulu.jpeg", price: 60, category: "hots" },
-  { name: "Jowar Mixture", image: "Jowar Mixture.jpeg", price: 60, category: "hots" },
-  { name: "Jowar Murukkulu", image: "Jowar Murukkulu.jpeg", price: 60, category: "hots" },
-  { name: "Jowar Ribbon Pakodi", image: "Jowar Ribbon Pakodi.jpeg", price: 60, category: "hots" },
-  { name: "Foxtail Sev", image: "Foxtail Sev.jpeg", price: 60, category: "hots" },
-  { name: "Arikalu Jantikalu", image: "Arikalu Jantikalu.jpeg", price: 60, category: "hots" },
-  { name: "Samalu Boondi", image: "Samalu Boondi.jpeg", price: 60, category: "hots" },
-  { name: "Dry Fruit Mixture", image: "Dry Fruit Mixture.jpeg", price: 180, category: "dryfruits" },
-  { name: "Dry Fruit Laddu", image: "Dry Fruit Laddu.jpeg", price: 300, category: "sweets" },
-  { name: "Cashew Bar", image: "Cashew Bar.jpeg", price: 200, category: "dryfruits" },
-  { name: "Panchadara Gavvalu", image: "Panchadara Gavvalu.jpg", price: 100, category: "sweets" },
-  { name: "Bellam Gavvalu", image: "Bellam Gavvalu.jpeg", price: 100, category: "sweets" },
-  { name: "Hot Gavvalu", image: "Hot Gavvalu.jpeg", price: 100, category: "hots" }
+  { name: "Combo Pack 1", image: "b1.jpeg", price: 999, category: "combo", description:"Premium combo - assorted millet snacks." },
+  { name: "Combo Pack 2", image: "b2.jpeg", price: 299, category: "combo", description:"Tasty combo with crunchy favourites." },
+  { name: "Combo Pack 3", image: "b3.jpeg", price: 399, category: "combo", description:"Value combo for daily snacking." },
+  { name: "Combo Pack 4", image: "b4.jpeg", price: 599, category: "combo", description:"Assorted premium millet selections." },
+  { name: "Ragi Mixture", image: "Ragi Mixture.jpeg", price: 60, category: "hots", description:"Crunchy and wholesome Ragi mixture." },
+  { name: "Ragi Chegodilu", image: "Ragi Chegodilu.jpeg", price: 60, category: "hots", description:"Traditional chegodilu made from ragi." },
+  { name: "Ragi Murukkulu", image: "Ragi Murukkulu.jpeg", price: 60, category: "hots", description:"Crispy murukkulu with millet goodness." },
+  { name: "Jowar Mixture", image: "Jowar Mixture.jpeg", price: 60, category: "hots", description:"Light and tasty jowar mixture." },
+  { name: "Dry Fruit Mixture", image: "Dry Fruit Mixture.jpeg", price: 180, category: "dryfruits", description:"Energy-dense dry fruit mix with millets." },
+  { name: "Dry Fruit Laddu", image: "Dry Fruit Laddu.jpeg", price: 300, category: "sweets", description:"Rich laddus with dry fruits." },
+  { name: "Cashew Bar", image: "Cashew Bar.jpeg", price: 200, category: "dryfruits", description:"Crunchy cashew bars, great snack." },
+  { name: "Panchadara Gavvalu", image: "Panchadara Gavvalu.jpg", price: 100, category: "sweets", description:"Sweet gavvalu made with panchadara." },
+  { name: "Bellam Gavvalu", image: "Bellam Gavvalu.jpeg", price: 100, category: "sweets", description:"Bellam (jaggery) gavvalu." },
+  { name: "Hot Gavvalu", image: "Hot Gavvalu.jpeg", price: 100, category: "hots", description:"Spicy hot gavvalu." }
 ];
 
-/* ---------- Cart ---------- */
 const cart = {};
+const safeId = (name) => name.replace(/\s+/g,'_').replace(/[^\w-]/g,'');
 
-/* ---------- Helper ---------- */
-const safeId = (name) => name.replace(/\s+/g, '_').replace(/[^\w-]/g, '');
-
-/* ---------- Render Categories ---------- */
 function renderCategories() {
-  const grid = document.getElementById("category-grid");
-  grid.innerHTML = "";
+  const categoryGrid = document.getElementById("category-grid");
+  categoryGrid.innerHTML = "";
 
-  const categories = ["all", ...new Set(products.map(p => p.category))];
+  const allCard = document.createElement("div");
+  allCard.className = "product-card";
+  allCard.innerHTML = "<h4>All Products</h4>";
+  allCard.addEventListener("click", () => renderProducts("all"));
+  categoryGrid.appendChild(allCard);
 
-  categories.forEach(cat => {
-    const div = document.createElement("div");
-    div.className = "product-card";
-    div.style.cursor = "pointer";
-    div.innerHTML = `<h4>${cat === "all" ? "All Products" : cat.toUpperCase()}</h4>`;
-    div.addEventListener("click", () => renderProducts(cat));
-    grid.appendChild(div);
+  const categories = [...new Set(products.map(p=>p.category))];
+  categories.forEach(cat=>{
+    const div=document.createElement("div");
+    div.className="product-card";
+    div.innerHTML=`<h4>${cat.toUpperCase()}</h4>`;
+    div.addEventListener("click",()=>renderProducts(cat));
+    categoryGrid.appendChild(div);
   });
 }
 
-/* ---------- Render Products ---------- */
-function renderProducts(category) {
+function renderProducts(category="all") {
   const grid = document.getElementById("product-grid");
-  grid.innerHTML = "";
+  grid.innerHTML="";
+  const filtered = category==="all"?products:products.filter(p=>p.category===category);
 
-  const filtered = category === "all" ? products : products.filter(p => p.category === category);
-
-  filtered.forEach(product => {
+  filtered.forEach(product=>{
     const id = safeId(product.name);
     const card = document.createElement("div");
-    card.className = "product-card";
+    card.className="product-card";
     card.innerHTML = `
       <img src="${product.image}" alt="${product.name}">
       <h4>${product.name}</h4>
       <p>₹${product.price}</p>
       <div class="quantity-controls">
         <button onclick="removeFromCart('${product.name}')">-</button>
-        <span id="qty-${id}">${cart[product.name] ? cart[product.name].qty : 0}</span>
+        <span id="qty-${id}">${cart[product.name]?cart[product.name].qty:0}</span>
         <button onclick="addToCart('${product.name}', ${product.price})">+</button>
       </div>
     `;
     grid.appendChild(card);
+
+    card.querySelector('img').addEventListener('click',()=>openProductModal(product));
+    card.querySelector('h4').addEventListener('click',()=>openProductModal(product));
   });
 }
 
-/* ---------- Cart Functions ---------- */
 function addToCart(name, price) {
-  if (!cart[name]) cart[name] = { price, qty: 0 };
+  if(!cart[name]) cart[name]={qty:0, price};
   cart[name].qty++;
   updateCart();
   updateProductQty(name);
 }
-
 function removeFromCart(name) {
-  if (cart[name]) {
-    cart[name].qty--;
-    if (cart[name].qty <= 0) delete cart[name];
-    updateCart();
-    updateProductQty(name);
-  }
-}
-
-function updateProductQty(name) {
-  const el = document.getElementById(`qty-${safeId(name)}`);
-  if (el) el.textContent = cart[name] ? cart[name].qty : 0;
-}
-
-function updateCart() {
-  const container = document.getElementById("panel-cart-items");
-  const cartCount1 = document.getElementById("cartCount");
-  const cartCount2 = document.getElementById("cartCount2");
-  const summary = document.querySelector(".cart-summary p");
-
-  container.innerHTML = "";
-  let total = 0;
-
-  if (Object.keys(cart).length === 0) {
-    container.innerHTML = '<div class="empty-cart">Your cart is empty</div>';
-    summary.textContent = `Total: ₹0.00`;
-    cartCount1.textContent = 0;
-    cartCount2.textContent = 0;
-    return;
-  }
-
-  for (let name in cart) {
-    const item = cart[name];
-    total += item.qty * item.price;
-
-    const div = document.createElement("div");
-    div.className = "cart-item";
-    div.innerHTML = `
-      <span>${name} x${item.qty}</span>
-      <span>₹${(item.qty * item.price).toFixed(2)}</span>
-    `;
-    container.appendChild(div);
-  }
-
-  summary.textContent = `Total: ₹${total.toFixed(2)}`;
-  cartCount1.textContent = Object.keys(cart).length;
-  cartCount2.textContent = Object.keys(cart).length;
-}
-
-/* ---------- Clear Cart ---------- */
-document.querySelector(".clear").addEventListener("click", () => {
-  for (let key in cart) delete cart[key];
+  if(!cart[name]) return;
+  cart[name].qty--;
+  if(cart[name].qty<=0) delete cart[name];
   updateCart();
-  renderProducts("all");
+  updateProductQty(name);
+}
+function updateProductQty(name){
+  const el=document.getElementById("qty-"+safeId(name));
+  if(el) el.textContent = cart[name]?cart[name].qty:0;
+}
+function updateCart(){
+  const container = document.getElementById("panel-cart-items");
+  let html = "", total=0;
+  const keys=Object.keys(cart);
+  if(keys.length===0){ container.innerHTML='<div class="empty-cart">Your cart is empty</div>'; document.querySelector(".cart-summary p").textContent="Total: ₹0.00"; updateCartCount(); return;}
+  keys.forEach(name=>{
+    const item=cart[name];
+    total+=item.price*item.qty;
+    html+=`<div class="cart-item"><div>${name}</div><div>${item.qty}</div><div>₹${(item.price*item.qty).toFixed(2)}</div></div>`;
+  });
+  container.innerHTML=html;
+  document.querySelector(".cart-summary p").textContent=`Total: ₹${total.toFixed(2)}`;
+  updateCartCount();
+}
+function updateCartCount(){
+  const count = Object.keys(cart).length;
+  document.getElementById("cartCount").textContent=count;
+  document.getElementById("cartCount2").textContent=count;
+}
+
+function toggleCartPanel(){
+  document.getElementById("cartPanel").classList.toggle("active");
+  document.getElementById("overlay").classList.toggle("active");
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+  renderCategories();
+  renderProducts();
+  document.getElementById("cartIcon").addEventListener("click",toggleCartPanel);
+  document.getElementById("cartIcon2").addEventListener("click",toggleCartPanel);
+  document.getElementById("closeCart").addEventListener("click",toggleCartPanel);
+  document.getElementById("overlay").addEventListener("click",toggleCartPanel);
+  document.querySelector(".clear").addEventListener("click",()=>{
+    for(let k in cart) delete cart[k];
+    updateCart();
+  });
 });
+
+/* ---------- Product Modal ---------- */
+const modal = document.getElementById("productModal");
+const modalImg = document.getElementById("modalImage");
+const modalName = document.getElementById("modalName");
+const modalPrice = document.getElementById("modalPrice");
+const modalDescription = document.getElementById("modalDescription");
+const modalQty = document.getElementById("modalQty");
+const modalAdd = document.getElementById("modalAddBtn");
+const modalRemove = document.getElementById("modalRemoveBtn");
+const closeModal = document.getElementById("closeProductModal");
+
+let currentProduct=null;
+function openProductModal(product){
+  currentProduct=product;
+  modalImg.src=product.image;
+  modalName.textContent=product.name;
+  modalPrice.textContent=`₹${product.price}`;
+  modalDescription.textContent=product.description;
+  modalQty.textContent=cart[product.name]?cart[product.name].qty:0;
+  modal.style.display="flex";
+}
+closeModal.addEventListener("click",()=>{modal.style.display="none";});
+modalAdd.addEventListener("click",()=>{
+  if(!currentProduct) return;
+  addToCart(currentProduct.name, currentProduct.price);
+  modalQty.textContent=cart[currentProduct.name]?cart[currentProduct.name].qty:0;
+});
+modalRemove.addEventListener("click",()=>{
+  if(!currentProduct) return;
+  removeFromCart(currentProduct.name);
+  modalQty.textContent=cart[currentProduct.name]?cart[currentProduct.name].qty:0;
+});
+window.addEventListener("click",(e)=>{if(e.target===modal) modal.style.display="none";});
+
+/* ---------- WhatsApp Pay ---------- */
+function sendOrder(){
+  if(Object.keys(cart).length===0){ alert("Cart empty!"); return;}
+  let text="*Order from Millet Bites*%0A";
+  for(let name in cart){
+    text+=`${name} x${cart[name].qty} = ₹${(cart[name].qty*cart[name].price).toFixed(2)}%0A`;
+  }
+  const total = Object.keys(cart).reduce((sum,name)=>sum+cart[name].qty*cart[name].price,0);
+  text+=`Total: ₹${total.toFixed(2)}`;
+  window.open(`https://wa.me/919949840365?text=${text}`,"_blank");
+}
 
 /* ---------- Search ---------- */
-function filterProducts() {
-  const query = document.getElementById("searchInput").value.toLowerCase();
-  const cards = document.querySelectorAll("#product-grid .product-card");
-  cards.forEach(card => {
-    const title = card.querySelector("h4").textContent.toLowerCase();
-    card.style.display = title.includes(query) ? "block" : "none";
+function filterProducts(){
+  const q=document.getElementById("searchInput").value.toLowerCase();
+  products.forEach(p=>{
+    const el=document.querySelector(`.product-card h4:contains('${p.name}')`);
   });
 }
-function clearSearch() {
-  document.getElementById("searchInput").value = "";
-  filterProducts();
-}
-
-/* ---------- Cart Panel Toggle ---------- */
-function toggleCart() {
-  const panel = document.getElementById("cartPanel");
-  const overlay = document.getElementById("overlay");
-  if (panel.style.right === "0px") {
-    panel.style.right = "-400px";
-    overlay.style.display = "none";
-  } else {
-    panel.style.right = "0px";
-    overlay.style.display = "block";
-  }
-}
-document.getElementById("cartIcon").addEventListener("click", toggleCart);
-document.getElementById("cartIcon2").addEventListener("click", toggleCart);
-document.getElementById("closeCart").addEventListener("click", toggleCart);
-document.getElementById("overlay").addEventListener("click", toggleCart);
-
-/* ---------- Pay Now → WhatsApp ---------- */
-function sendOrder() {
-  if (Object.keys(cart).length === 0) {
-    alert("Your cart is empty!");
-    return;
-  }
-
-  let message = "Hello, I would like to order:\n\n";
-  let total = 0;
-
-  for (let name in cart) {
-    const item = cart[name];
-    message += `${name} x${item.qty} = ₹${(item.price * item.qty).toFixed(2)}\n`;
-    total += item.price * item.qty;
-  }
-
-  message += `\nTotal: ₹${total.toFixed(2)}`;
-  const encoded = encodeURIComponent(message);
-  const phone = "919949840365";
-  const url = `https://wa.me/${phone}?text=${encoded}`;
-  window.open(url, "_blank");
-}
-
-/* ---------- Init ---------- */
-document.addEventListener("DOMContentLoaded", () => {
-  renderCategories();
-  renderProducts("all");
-  updateCart();
-});
+function clearSearch(){ document.getElementById("searchInput").value=""; renderProducts();}
