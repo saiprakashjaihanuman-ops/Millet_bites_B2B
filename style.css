@@ -145,3 +145,12 @@ footer { text-align:center; padding:20px; background:#6b4f3c; color:white; font-
 }
 .quantity-controls button:hover { background: #b55416; }
 #modalQty { font-weight: bold; font-size: 18px; min-width: 30px; text-align: center; }
+/* Ensure cart panel is responsive */
+@media (max-width: 400px) {
+  .cart-panel { width: 100%; }
+}
+
+/* Prevent badge from blocking clicks */
+.product-card .badge {
+  pointer-events: none;
+}
