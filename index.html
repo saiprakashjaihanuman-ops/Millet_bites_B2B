@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,7 +52,12 @@
       </div>
     </div>
 
-    <!-- Only product grid -->
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search products..." oninput="filterProducts()">
+      <button onclick="clearSearch()">Clear</button>
+    </div>
+
+    <div class="product-grid" id="category-grid"></div>
     <div class="product-grid" id="product-grid" style="margin-top:30px;"></div>
   </section>
 
@@ -77,15 +81,12 @@
     <p>&copy; 2025 Millet Bites. All rights reserved.</p>
   </footer>
 
-  <a href="https://wa.me/919949840365" 
-     class="whatsapp-float" 
-     target="_blank" 
-     aria-label="Chat with us on WhatsApp">💬</a>
+  <a href="https://wa.me/919949840365" class="whatsapp-float" target="_blank">💬</a>
 
   <!-- Product Modal -->
   <div id="productModal" class="modal">
     <div class="modal-content">
-      <button id="closeProductModal" aria-label="Close modal">&times;</button>
+      <span id="closeProductModal">&times;</span>
       <img id="modalImage" src="" alt="">
       <h2 id="modalName"></h2>
       <p id="modalPrice"></p>
