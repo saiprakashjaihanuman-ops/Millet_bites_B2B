@@ -1,0 +1,117 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #fffaf5;
+  color: #4e342e;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: #4e342e;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+header h1 { margin: 0; font-size: 24px; }
+header nav a {
+  color: white;
+  margin: 0 12px;
+  text-decoration: none;
+  font-weight: bold;
+}
+header nav a:hover { text-decoration: underline; }
+
+/* Hero */
+.hero {
+  background: #8d6e63;
+  color: white;
+  text-align: center;
+  padding: 80px 20px;
+}
+.hero h2 { font-size: 36px; margin-bottom: 10px; }
+.hero p { font-size: 18px; margin-bottom: 20px; }
+.hero-btn {
+  background: white;
+  color: #4e342e;
+  padding: 12px 25px;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: bold;
+}
+.hero-btn:hover { background: #f5f5f5; }
+
+/* Menu */
+.menu { padding: 40px 20px; }
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.search-container {
+  margin: 15px 0;
+}
+.search-container input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.search-container button {
+  padding: 8px 12px;
+  background: #4e342e;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.search-container button:hover { background: #6d4c41; }
+
+/* Products */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+.product-card {
+  background: white;
+  border: 1px solid #d7ccc8;
+  padding: 15px;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.product-card img { width: 100%; border-radius: 8px; }
+.product-card h4 { margin: 10px 0; }
+.product-card button {
+  background: #8d6e63;
+  color: white;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.product-card button:hover { background: #6d4c41; }
+
+/* Contact */
+.about-contact {
+  text-align: center;
+  padding: 40px 20px;
+  background: #fff;
+}
+.contact-icons img {
+  width: 35px;
+  margin: 0 10px;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 15px;
+  background: #4e342e;
+  color: white;
+}
