@@ -74,10 +74,11 @@ header nav a:hover {
 .hero {
   position: relative;
   background: url('hero-bg.jpg') center/cover no-repeat;
-  height: 380px;
+  height: 250px; /* Reduced height from 380px */
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 20px; /* optional padding for smaller screens */
 }
 
 .hero-overlay {
@@ -95,20 +96,20 @@ header nav a:hover {
 }
 
 .hero-text h2 {
-  font-size: 36px;
-  margin-bottom: 10px;
+  font-size: 28px; /* Slightly smaller */
+  margin-bottom: 8px;
   font-weight: 700;
 }
 
 .hero-text p {
-  font-size: 18px;
-  margin-bottom: 20px;
+  font-size: 16px; /* Slightly smaller */
+  margin-bottom: 15px;
 }
 
 .hero-btn {
   background: #fff;
   color: #e07b39;
-  padding: 12px 28px;
+  padding: 10px 22px; /* Slightly smaller */
   border-radius: 25px;
   font-weight: 600;
   transition: 0.3s;
@@ -117,6 +118,23 @@ header nav a:hover {
 .hero-btn:hover {
   background: #e07b39;
   color: #fff;
+}
+
+/* ---------- Responsive adjustments ---------- */
+@media (max-width: 768px) {
+  .hero {
+    height: 200px; /* Smaller on mobile */
+  }
+  .hero-text h2 {
+    font-size: 22px;
+  }
+  .hero-text p {
+    font-size: 14px;
+  }
+  .hero-btn {
+    padding: 8px 18px;
+    font-size: 14px;
+  }
 }
 
 /* ---------- Menu Section ---------- */
