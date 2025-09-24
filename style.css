@@ -74,11 +74,11 @@ header nav a:hover {
 .hero {
   position: relative;
   background: url('hero-bg.jpg') center/cover no-repeat;
-  height: 250px; /* Reduced height from 380px */
+  height: 250px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 20px; /* optional padding for smaller screens */
+  padding: 0 20px;
 }
 
 .hero-overlay {
@@ -96,20 +96,20 @@ header nav a:hover {
 }
 
 .hero-text h2 {
-  font-size: 28px; /* Slightly smaller */
+  font-size: 28px;
   margin-bottom: 8px;
   font-weight: 700;
 }
 
 .hero-text p {
-  font-size: 16px; /* Slightly smaller */
+  font-size: 16px;
   margin-bottom: 15px;
 }
 
 .hero-btn {
   background: #fff;
   color: #e07b39;
-  padding: 10px 22px; /* Slightly smaller */
+  padding: 10px 22px;
   border-radius: 25px;
   font-weight: 600;
   transition: 0.3s;
@@ -123,7 +123,7 @@ header nav a:hover {
 /* ---------- Responsive adjustments ---------- */
 @media (max-width: 768px) {
   .hero {
-    height: 200px; /* Smaller on mobile */
+    height: 200px;
   }
   .hero-text h2 {
     font-size: 22px;
@@ -151,46 +151,21 @@ header nav a:hover {
   margin-bottom: 25px;
 }
 
-.search-container {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 30px;
-}
-
-.search-container input {
-  flex: 1;
-  padding: 12px 15px;
-  border-radius: 25px;
-  border: 1px solid #e0d3c3;
-}
-
-.search-container button {
-  padding: 12px 20px;
-  border-radius: 25px;
-  background: #e07b39;
-  color: #fff;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-.search-container button:hover {
-  background: #c4622a;
-}
-
 /* ---------- Product Grid ---------- */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* slightly smaller for better fit */
+  gap: 20px; /* reduced gap for compactness */
 }
 
 .product-card {
   background: #fffaf4;
   border-radius: 20px;
-  padding: 15px;
+  padding: 12px;
   text-align: center;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   transition: transform 0.2s, box-shadow 0.3s;
+  position: relative;
 }
 
 .product-card:hover {
@@ -200,7 +175,7 @@ header nav a:hover {
 
 .product-card img {
   width: 100%;
-  height: 160px;
+  height: 140px; /* slightly smaller for compact grid */
   border-radius: 15px;
   object-fit: cover;
   cursor: pointer;
@@ -214,7 +189,7 @@ header nav a:hover {
 
 .product-card p {
   font-weight: 500;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .badge {
@@ -234,13 +209,13 @@ header nav a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 8px;
+  margin-top: 8px;
 }
 
 .quantity-controls button {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border-radius: 12px;
   background: #e07b39;
   color: white;
@@ -253,7 +228,7 @@ header nav a:hover {
 }
 
 .quantity-controls span {
-  min-width: 30px;
+  min-width: 28px;
   text-align: center;
   font-weight: 600;
 }
@@ -262,13 +237,13 @@ header nav a:hover {
 .cart-panel {
   position: fixed;
   top: 0;
-  right: -380px;
-  width: 380px;
+  right: -300px; /* reduced from 380px */
+  width: 300px;   /* reduced from 380px */
   height: 100%;
   background: #fffaf4;
   box-shadow: -4px 0 20px rgba(0,0,0,0.25);
   transition: right 0.3s;
-  padding: 25px;
+  padding: 20px;
   z-index: 2000;
   display: flex;
   flex-direction: column;
@@ -281,23 +256,24 @@ header nav a:hover {
 .cart-item {
   display: flex;
   justify-content: space-between;
-  margin: 12px 0;
+  margin: 10px 0;
   font-weight: 500;
 }
 
 .cart-summary {
   font-weight: 700;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
 .cart-buttons button {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
   border-radius: 12px;
   font-weight: 600;
   background: #e07b39;
   color: #fff;
   transition: 0.3s;
+  margin-top: 10px;
 }
 
 .cart-buttons button:hover {
@@ -315,6 +291,7 @@ header nav a:hover {
   display:none;
   z-index:1500;
 }
+
 .overlay.active {
   display:block;
 }
@@ -337,14 +314,15 @@ header nav a:hover {
 .modal-content {
   background: #fffaf4;
   border-radius: 20px;
-  padding: 25px;
-  max-width: 400px;
+  padding: 20px;
+  max-width: 380px;
   width: 100%;
   box-shadow: 0 10px 25px rgba(0,0,0,0.25);
   display: flex;
   flex-direction: column;
   align-items: center;
   animation: fadeIn 0.3s ease-out;
+  position: relative;
 }
 
 @keyframes fadeIn {
@@ -355,7 +333,7 @@ header nav a:hover {
 .modal-content img {
   width: 100%;
   border-radius: 15px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 #closeProductModal {
@@ -369,7 +347,9 @@ header nav a:hover {
   cursor: pointer;
 }
 
-#closeProductModal:hover { color:#c4622a; }
+#closeProductModal:hover {
+  color:#c4622a;
+}
 
 .modal-content h2 {
   margin-bottom: 8px;
@@ -398,7 +378,7 @@ header nav a:hover {
 .contact-icons {
   display: flex;
   justify-content: center;
-  gap: 25px;
+  gap: 20px;
   margin-top: 20px;
 }
 
@@ -453,5 +433,6 @@ footer {
 @media (max-width: 400px) {
   .cart-panel {
     width: 100%;
+    right: -100%;
   }
 }
