@@ -70,7 +70,12 @@ function updateCart(){
   keys.forEach(name=>{
     const item=cart[name]; 
     total+=item.price*item.qty; 
-    html+=`<div class="cart-item"><div>${name}</div><div>${item.qty}</div><div>₹${(item.price*item.qty).toFixed(2)}</div></div>`; 
+    html+=`
+      <div class="cart-item">
+        <span>${name}</span>
+        <span>x${item.qty}</span>
+        <span>₹${(item.price*item.qty).toFixed(2)}</span>
+      </div>`;
   });
   container.innerHTML=html; 
   document.querySelector(".cart-summary p").textContent=`Total: ₹${total.toFixed(2)}`; 
@@ -115,6 +120,7 @@ let currentProduct=null;
 function openProductModal(p){
   currentProduct=p;
   modalImg.src=p.image;
+  modalImg.alt=p.name;  // ✅ Fix accessibility
   modalName.textContent=p.name;
   modalPrice.textContent="₹"+p.price;
   modalDescription.textContent=p.description;
