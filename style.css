@@ -57,6 +57,11 @@ header nav a:hover {
   position: relative;
   margin-left: 20px;
 }
+/* ---------- Cart Icon ---------- */
+.cart-icon img {
+  width: 30px;  /* reduced from default */
+  height: 30px; /* reduced from default */
+}
 
 .cart-count {
   position: absolute;
