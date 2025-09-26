@@ -265,7 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
 window.addEventListener("load", function () {
   const popup = document.getElementById("popup");
   const closeBtn = document.querySelector(".popup-close");
-  const shopBtn = document.querySelector("#hero"); // Shop Now button
+  const shopBtn = document.querySelector("#home"); // Shop Now button
 
   // Show popup on page load
   popup.style.display = "flex";
