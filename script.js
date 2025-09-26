@@ -4,12 +4,8 @@ const products = [
   { name: "Ragi Chegodilu", image: "Ragi Chegodilu.jpeg", price: 60, description: "Traditional chegodilu made from ragi." },
   { name: "Ragi Murukkulu", image: "Ragi Murukkulu.jpeg", price: 60, description: "Crispy murukkulu with millet goodness." },
   { name: "Jowar Mixture", image: "Jowar Mixture.jpeg", price: 60, description: "Light and tasty jowar mixture." },
-  { name: "Dry Fruit Mixture", image: "Dry Fruit Mixture.jpeg", price: 180, description: "Energy-dense dry fruit mix with millets." },
   { name: "Dry Fruit Laddu", image: "Dry Fruit Laddu.jpeg", price: 300, description: "Rich laddus with dry fruits." },
-  { name: "Cashew Bar", image: "Cashew Bar.jpeg", price: 200, description: "Crunchy cashew bars, great snack." },
-  { name: "Panchadara Gavvalu", image: "Panchadara Gavvalu.jpg", price: 100, description: "Sweet gavvalu made with panchadara." },
-  { name: "Bellam Gavvalu", image: "Bellam Gavvalu.jpeg", price: 100, description: "Bellam (jaggery) gavvalu." },
-  { name: "Hot Gavvalu", image: "Hot Gavvalu.jpeg", price: 100, description: "Spicy hot gavvalu for spicy lovers." }
+  { name: "Cashew Bar", image: "Cashew Bar.jpeg", price: 200, description: "Crunchy cashew bars, great snack." }
 ];
 
 const cart = {};
