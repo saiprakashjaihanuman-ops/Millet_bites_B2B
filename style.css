@@ -740,8 +740,8 @@ footer {
 
 .offer-badge {
   position: absolute;
-  top: 10px;
-  right: -40px; /* extend outside card */
+  top: 15px;
+  right: -30px; /* extend outside card */
   background-color: #ff4c4c;
   color: white;
   font-size: 12px;
