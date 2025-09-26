@@ -162,6 +162,83 @@ modalRemove.addEventListener("click", () => {
   modalQty.textContent = cart[currentProduct.name] ? formatQty(cart[currentProduct.name].qty, currentProduct.unit) : formatQty(0, currentProduct.unit);
 });
 
+// ---------- Pay Now Validation ----------
+function canPayNow() {
+  let totalKg = 0;
+  let totalBars = 0;
+
+  for (let name in cart) {
+    const item = cart[name];
+    const unit = item.unit.toLowerCase();
+
+    if (unit.includes("kg")) {
+      totalKg += item.qty;
+    } else if (unit.includes("bar")) {
+      totalBars += item.qty;
+    }
+  }
+
+  // ✅ Only KGs
+  if (totalKg > 0 && totalBars === 0) {
+    return totalKg >= 5;
+  }
+
+  // ✅ Only Bars
+  if (totalBars > 0 && totalKg === 0) {
+    return totalBars >= 10;
+  }
+
+  // ✅ Mix of Bars + Kg
+  if (totalKg > 0 && totalBars > 0) {
+    return (totalKg >= 4 && totalBars >= 10);
+  }
+
+  return false;
+}
+
+// ---------- WhatsApp Order ----------
+function sendOrder() {
+  if (Object.keys(cart).length === 0) {
+    alert("Your cart is empty!");
+    return;
+  }
+
+  if (!canPayNow()) {
+    alert("❌ Minimum order required:\n\n• 5 Kg (only Kgs)\n• 10 Bars (only Bars)\n• 4 Kg + 10 Bars (mix)\n\nPlease adjust your order.");
+    return;
+  }
+
+  let text = "*Order from Millet Bites*\n\n";
+  for(let name in cart) {
+    const item = cart[name];
+    text += `• ${name} x${formatQty(item.qty, item.unit)} = ₹${(item.price*item.qty).toFixed(2)}${item.offer ? ` (${item.offer})` : ''}\n`;
+  }
+  const total = Object.keys(cart).reduce((sum,name)=>sum+cart[name].price*cart[name].qty,0);
+  text += `\n*Total: ₹${total.toFixed(2)}*`;
+
+  for(let k in cart) delete cart[k];
+  updateCart();
+  products.forEach(p => updateQty(p.name));
+  toggleCartPanel();
+
+  window.open(`https://wa.me/919949840365?text=${encodeURIComponent(text)}`, "_blank");
+}
+
+// ---------- Button Flash ----------
+function flashButton(name, price) {
+  const button = document.querySelector(`button[onclick="addToCart('${name}', ${price})"]`);
+  if(button) {
+    button.style.backgroundColor = '#c4622a';
+    setTimeout(()=>button.style.backgroundColor='',300);
+  }
+}
+
+// ---------- Cart Panel Toggle ----------
+function toggleCartPanel() {
+  document.getElementById("cartPanel").classList.toggle("active");
+  document.getElementById("overlay").classList.toggle("active");
+}
+
 // ---------- DOM Ready ----------
 document.addEventListener("DOMContentLoaded", () => {
   renderProducts();
@@ -184,35 +261,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-
-// ---------- WhatsApp Order ----------
-function sendOrder() {
-  if(Object.keys(cart).length === 0) { alert("Your cart is empty!"); return; }
-  let text = "*Order from Millet Bites*\n\n";
-  for(let name in cart) {
-    const item = cart[name];
-    text += `• ${name} x${formatQty(item.qty, item.unit)} = ₹${(item.price*item.qty).toFixed(2)}${item.offer ? ` (${item.offer})` : ''}\n`;
-  }
-  const total = Object.keys(cart).reduce((sum,name)=>sum+cart[name].price*cart[name].qty,0);
-  text += `\n*Total: ₹${total.toFixed(2)}*`;
-  for(let k in cart) delete cart[k];
-  updateCart();
-  products.forEach(p => updateQty(p.name));
-  toggleCartPanel();
-  window.open(`https://wa.me/919949840365?text=${encodeURIComponent(text)}`, "_blank");
-}
-
-// ---------- Button Flash ----------
-function flashButton(name, price) {
-  const button = document.querySelector(`button[onclick="addToCart('${name}', ${price})"]`);
-  if(button) {
-    button.style.backgroundColor = '#c4622a';
-    setTimeout(()=>button.style.backgroundColor='',300);
-  }
-}
-
-// ---------- Cart Panel Toggle ----------
-function toggleCartPanel() {
-  document.getElementById("cartPanel").classList.toggle("active");
-  document.getElementById("overlay").classList.toggle("active");
-}
