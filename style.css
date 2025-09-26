@@ -55,7 +55,7 @@ nav a:hover {
 
 .cart-icon {
   position: relative;
-  margin-left: 10px;
+  margin-left: 20px;
   cursor: pointer;
 }
 
@@ -67,7 +67,7 @@ nav a:hover {
 .cart-count {
   position: absolute;
   top: -8px;
-  right: -12px;
+  right: -1px;
   background: white;
   color: #e07b39;
   padding: 2px 6px;
