@@ -1,19 +1,36 @@
 // ---------- Product Data ----------
 const products = [
-  { name: "Ragi Mixture", image: "Ragi Mixture.jpeg", price: 360, description: "Crunchy and wholesome Ragi mixture.", offer: "", unit: "Kg" },
-  { name: "Ragi Chegodilu", image: "Ragi Chegodilu.jpeg", price: 360, description: "Traditional chegodilu made from ragi.", offer: "Fast Selling", unit: "Kg" },
-  { name: "Ragi Murukkulu", image: "Ragi Murukkulu.jpeg", price: 360, description: "Crispy murukkulu with millet goodness.", offer: "", unit: "Kg" },
-  { name: "Jowar Mixture", image: "Jowar Mixture.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "", unit: "Kg" },
-  { name: "Jowar Murukkulu", image: "Jowar Murukkulu.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "", unit: "Kg" },
-  { name: "Jowar Ribbon Pakodi", image: "Jowar Ribbon Pakodi.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "Fast Selling", unit: "Kg" },
-  { name: "Arikalu Jantikalu", image: "Arikalu Jantikalu.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "", unit: "Kg" },
-  { name: "Samalu Boondi", image: "Samalu Boondi.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "Fast Selling", unit: "Kg" },
-  { name: "Foxtail Sev", image: "Foxtail Sev.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "Fast Selling", unit: "Kg" },
-  { name: "Dry Fruit Laddu", image: "Dry Fruit Laddu.jpeg", price: 960, description: "Rich laddus with dry fruits.", offer: "Fast Selling", unit: "Kg" },
-  { name: "Cashew Bar", image: "Cashew Bar.jpeg", price: 150, description: "Crunchy cashew bars, great snack.", offer: "", unit: "Bar of 170g" }
+  { name: "Ragi Mixture", image: "Ragi Mixture.jpeg", price: 360, description: "Crunchy and wholesome Ragi mixture.", offer: "", unit: "1Kg" },
+  { name: "Ragi Chegodilu", image: "Ragi Chegodilu.jpeg", price: 360, description: "Traditional chegodilu made from ragi.", offer: "Fast Seller", unit: "1Kg" },
+  { name: "Ragi Murukkulu", image: "Ragi Murukkulu.jpeg", price: 360, description: "Crispy murukkulu with millet goodness.", offer: "", unit: "1Kg" },
+  { name: "Jowar Mixture", image: "Jowar Mixture.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "", unit: "1Kg" },
+  { name: "Jowar Murukkulu", image: "Jowar Murukkulu.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "", unit: "1Kg" },
+  { name: "Jowar Ribbon Pakodi", image: "Jowar Ribbon Pakodi.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "Fast Seller", unit: "1Kg" },
+  { name: "Arikalu Jantikalu", image: "Arikalu Jantikalu.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "", unit: "1Kg" },
+  { name: "Samalu Boondi", image: "Samalu Boondi.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "Fast Seller", unit: "1Kg" },
+  { name: "Foxtail Sev", image: "Foxtail Sev.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "Fast Seller", unit: "1Kg" },
+  { name: "Dry Fruit Laddu", image: "Dry Fruit Laddu.jpeg", price: 960, description: "Rich laddus with dry fruits.", offer: "Fast Seller", unit: "1Kg" },
+  { name: "Cashew Bar", image: "Cashew Bar.jpeg", price: 150, description: "Crunchy cashew bars, great snack.", offer: "", unit: "1 Bar of 170g" }
 ];
+
 const cart = {};
 const safeId = name => name.replace(/\s+/g, '_');
+
+// ---------- Helper: format quantity with unit ----------
+function formatQty(qty, unit) {
+  if (qty === 0) return `0 ${unit.replace(/\d+/g,'').trim()}`;
+
+  const words = unit.split(' ');
+  let firstWord = words[0].replace(/\d+/g,''); // remove numbers from first word
+
+  // pluralize first word if qty > 1
+  if (qty > 1) {
+    if (!firstWord.endsWith('s')) firstWord += 's';
+  }
+
+  words[0] = firstWord;
+  return qty + ' ' + words.join(' ');
+}
 
 // ---------- Render Products ----------
 function renderProducts() {
@@ -31,8 +48,8 @@ function renderProducts() {
       <p>₹${p.price} / ${p.unit}</p>
       <div class="quantity-controls">
         <button onclick="removeFromCart('${p.name}')" aria-label="Remove one ${p.name}">-</button>
-        <span id="qty-${id}">${cart[p.name] ? cart[p.name].qty + ' ' + p.unit : '0 ' + p.unit}</span>
-        <button onclick="addToCart('${p.name}', ${p.price}, '${p.offer}')" aria-label="Add one ${p.name}">+</button>
+        <span id="qty-${id}">${cart[p.name] ? formatQty(cart[p.name].qty, p.unit) : formatQty(0, p.unit)}</span>
+        <button onclick="addToCart('${p.name}', ${p.price})" aria-label="Add one ${p.name}">+</button>
       </div>`;
     grid.appendChild(card);
     
@@ -42,7 +59,7 @@ function renderProducts() {
 }
 
 // ---------- Cart Functions ----------
-function addToCart(name, price, offer) {
+function addToCart(name, price) {
   const product = products.find(p => p.name === name);
   if (!cart[name]) cart[name] = { qty: 0, price, unit: product.unit, offer: product.offer };
   cart[name].qty++;
@@ -62,7 +79,7 @@ function removeFromCart(name) {
 function updateQty(name) {
   const el = document.getElementById("qty-" + safeId(name));
   const product = products.find(p => p.name === name);
-  if (el) el.textContent = cart[name] ? `${cart[name].qty} ${product.unit}` : `0 ${product.unit}`;
+  if (el) el.textContent = cart[name] ? formatQty(cart[name].qty, product.unit) : formatQty(0, product.unit);
 }
 
 function updateCart() {
@@ -83,7 +100,7 @@ function updateCart() {
     html += `
       <div class="cart-item">
         <span>${name}</span>
-        <span>x${item.qty} ${item.unit}</span>
+        <span>x${formatQty(item.qty, item.unit)}</span>
         <span>₹${itemTotal.toFixed(2)}</span>
       </div>`;
   });
@@ -95,12 +112,6 @@ function updateCart() {
 function updateCartCount() {
   const count = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
   document.querySelectorAll(".cart-count").forEach(el => el.textContent = count);
-}
-
-function toggleCartPanel() {
-  document.getElementById("cartPanel").classList.toggle("active");
-  document.getElementById("overlay").classList.toggle("active");
-  document.body.style.overflow = document.getElementById("cartPanel").classList.contains("active") ? "hidden" : "";
 }
 
 // ---------- Product Modal ----------
@@ -122,7 +133,7 @@ function openProductModal(p) {
   modalName.textContent = p.name;
   modalPrice.textContent = `₹${p.price} / ${p.unit}`;
   modalDescription.textContent = p.description + (p.offer ? ` (${p.offer})` : '');
-  modalQty.textContent = cart[p.name] ? `${cart[p.name].qty} ${p.unit}` : `0 ${p.unit}`;
+  modalQty.textContent = cart[p.name] ? formatQty(cart[p.name].qty, p.unit) : formatQty(0, p.unit);
   modal.style.display = "flex";
   document.body.style.overflow = "hidden";
 }
@@ -134,8 +145,16 @@ function closeProductModal() {
 
 closeModal.addEventListener("click", closeProductModal);
 window.addEventListener("click", e => { if(e.target === modal) closeProductModal(); });
-modalAdd.addEventListener("click", () => { if(!currentProduct) return; addToCart(currentProduct.name, currentProduct.price); modalQty.textContent = cart[currentProduct.name] ? `${cart[currentProduct.name].qty} ${currentProduct.unit}` : `0 ${currentProduct.unit}`; });
-modalRemove.addEventListener("click", () => { if(!currentProduct) return; removeFromCart(currentProduct.name); modalQty.textContent = cart[currentProduct.name] ? `${cart[currentProduct.name].qty} ${currentProduct.unit}` : `0 ${currentProduct.unit}`; });
+modalAdd.addEventListener("click", () => { 
+  if(!currentProduct) return; 
+  addToCart(currentProduct.name, currentProduct.price); 
+  modalQty.textContent = formatQty(cart[currentProduct.name].qty, currentProduct.unit);
+});
+modalRemove.addEventListener("click", () => { 
+  if(!currentProduct) return; 
+  removeFromCart(currentProduct.name); 
+  modalQty.textContent = cart[currentProduct.name] ? formatQty(cart[currentProduct.name].qty, currentProduct.unit) : formatQty(0, currentProduct.unit);
+});
 
 // ---------- DOM Ready ----------
 document.addEventListener("DOMContentLoaded", () => {
@@ -166,7 +185,7 @@ function sendOrder() {
   let text = "*Order from Millet Bites*\n\n";
   for(let name in cart) {
     const item = cart[name];
-    text += `• ${name} x${item.qty} ${item.unit} = ₹${(item.price*item.qty).toFixed(2)}${item.offer ? ` (${item.offer})` : ''}\n`;
+    text += `• ${name} x${formatQty(item.qty, item.unit)} = ₹${(item.price*item.qty).toFixed(2)}${item.offer ? ` (${item.offer})` : ''}\n`;
   }
   const total = Object.keys(cart).reduce((sum,name)=>sum+cart[name].price*cart[name].qty,0);
   text += `\n*Total: ₹${total.toFixed(2)}*`;
