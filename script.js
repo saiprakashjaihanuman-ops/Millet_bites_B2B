@@ -1,16 +1,16 @@
 // ---------- Product Data ----------
 const products = [
   { name: "Ragi Mixture", image: "Ragi Mixture.jpeg", price: 360, description: "Crunchy and wholesome Ragi mixture.", offer: "10% off" },
-  { name: "Ragi Chegodilu", image: "Ragi Chegodilu.jpeg", price: 360, description: "Traditional chegodilu made from ragi.", offer: "Fast Selling" },
+  { name: "Ragi Chegodilu", image: "Ragi Chegodilu.jpeg", price: 360, description: "Traditional chegodilu made from ragi.", offer: "Buy 2 get 1 free" },
   { name: "Ragi Murukkulu", image: "Ragi Murukkulu.jpeg", price: 360, description: "Crispy murukkulu with millet goodness.", offer: "₹50 off" },
   { name: "Jowar Mixture", image: "Jowar Mixture.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "" },
   { name: "Jowar Murukkulu", image: "Jowar Murukkulu.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "" },
-  { name: "Jowar Ribbon Pakodi", image: "Jowar Ribbon Pakodi.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "Fast Selling" },
+  { name: "Jowar Ribbon Pakodi", image: "Jowar Ribbon Pakodi.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "" },
   { name: "Arikalu Jantikalu", image: "Arikalu Jantikalu.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "" },
-  { name: "Samalu Boondi", image: "Samalu Boondi.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "Fast Selling" },
-  { name: "Foxtail Sev", image: "Foxtail Sev.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "Fast Selling" },
-  { name: "Dry Fruit Laddu", image: "Dry Fruit Laddu.jpeg", price: 960, description: "Rich laddus with dry fruits.", offer: "Fast Selling" },
-  { name: "Cashew Bar", image: "Cashew Bar.jpeg", price: 150, description: "Crunchy cashew bars, great snack.", offer: "" }
+  { name: "Samalu Boondi", image: "Samalu Boondi.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "" },
+  { name: "Foxtail Sev", image: "Foxtail Sev.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "" },
+  { name: "Dry Fruit Laddu", image: "Dry Fruit Laddu.jpeg", price: 960, description: "Rich laddus with dry fruits.", offer: "15% off" },
+  { name: "Cashew Bar", image: "Cashew Bar.jpeg", price: 150, description: "Crunchy cashew bars, great snack.", offer: "₹20 off" }
 ];
 
 const cart = {};
@@ -26,10 +26,10 @@ function renderProducts() {
     const card = document.createElement("div");
     card.className = "product-card";
     card.innerHTML = `
+      ${p.offer ? `<div class="offer-badge">${p.offer}</div>` : ''}
       <img src="${p.image}" alt="${p.name}" loading="lazy">
       <h4>${p.name}</h4>
       <p>₹${p.price}</p>
-      ${p.offer ? `<p class="offer">${p.offer}</p>` : ''}
       <div class="quantity-controls">
         <button onclick="removeFromCart('${p.name}')" aria-label="Remove one ${p.name}">-</button>
         <span id="qty-${id}">${cart[p.name] ? cart[p.name].qty : 0}</span>
@@ -81,15 +81,13 @@ function updateCart() {
     const item = cart[name];
     let effectivePrice = item.price;
 
-    // Apply percentage discount
     if (item.offer && item.offer.includes('%')) {
       const percent = parseFloat(item.offer);
       effectivePrice = item.price * (1 - percent / 100);
     }
 
-    // Apply flat discount
     if (item.offer && item.offer.includes('₹')) {
-      const flat = parseFloat(item.offer.replace('₹', ''));
+      const flat = parseFloat(item.offer.replace('₹',''));
       effectivePrice = item.price - flat;
     }
 
@@ -138,19 +136,7 @@ function openProductModal(p) {
   modalImg.alt = p.name;
   modalName.textContent = p.name;
   modalPrice.textContent = "₹" + p.price;
-  modalDescription.textContent = p.description;
-
-  // Show offer if exists
-  if (p.offer) {
-    const existing = modal.querySelector('.offer');
-    if (!existing) {
-      const offerEl = document.createElement('p');
-      offerEl.className = 'offer';
-      offerEl.textContent = p.offer;
-      modalDescription.after(offerEl);
-    }
-  }
-
+  modalDescription.textContent = p.description + (p.offer ? ` (${p.offer})` : '');
   modalQty.textContent = cart[p.name] ? cart[p.name].qty : 0;
   modal.style.display = "flex";
   document.body.style.overflow = "hidden";
@@ -162,70 +148,9 @@ function closeProductModal() {
 }
 
 closeModal.addEventListener("click", closeProductModal);
-window.addEventListener("click", e => { if (e.target === modal) closeProductModal(); });
-
-modalAdd.addEventListener("click", () => {
-  if (!currentProduct) return;
-  addToCart(currentProduct.name, currentProduct.price, currentProduct.offer);
-  modalQty.textContent = cart[currentProduct.name] ? cart[currentProduct.name].qty : 0;
-});
-
-modalRemove.addEventListener("click", () => {
-  if (!currentProduct) return;
-  removeFromCart(currentProduct.name);
-  modalQty.textContent = cart[currentProduct.name] ? cart[currentProduct.name].qty : 0;
-});
-
-// ---------- WhatsApp Pay ----------
-function sendOrder() {
-  if (Object.keys(cart).length === 0) {
-    alert("Your cart is empty! Add some items before proceeding.");
-    return;
-  }
-
-  let text = "*Order from Millet Bites*\n\n";
-  for (let name in cart) {
-    const item = cart[name];
-    let effectivePrice = item.price;
-
-    if (item.offer && item.offer.includes('%')) {
-      const percent = parseFloat(item.offer);
-      effectivePrice = item.price * (1 - percent / 100);
-    }
-    if (item.offer && item.offer.includes('₹')) {
-      const flat = parseFloat(item.offer.replace('₹', ''));
-      effectivePrice = item.price - flat;
-    }
-
-    text += `• ${name} x${item.qty} = ₹${(effectivePrice * item.qty).toFixed(2)}\n`;
-  }
-
-  const total = Object.keys(cart).reduce((sum, name) => {
-    const item = cart[name];
-    let effectivePrice = item.price;
-    if (item.offer && item.offer.includes('%')) effectivePrice *= (1 - parseFloat(item.offer)/100);
-    if (item.offer && item.offer.includes('₹')) effectivePrice -= parseFloat(item.offer.replace('₹',''));
-    return sum + effectivePrice * item.qty;
-  }, 0);
-
-  text += `\n*Total: ₹${total.toFixed(2)}*`;
-
-  for (let k in cart) delete cart[k];
-  updateCart();
-  products.forEach(p => updateQty(p.name));
-  toggleCartPanel();
-
-  window.open(`https://wa.me/919949840365?text=${encodeURIComponent(text)}`, "_blank");
-}
-
-// ---------- Utility ----------
-function flashButton(name, price) {
-  const button = document.querySelector(`button[onclick="addToCart('${name}', ${price}, '${cart[name]?.offer || ''}')"]`);
-  if (button) {
-    button.style.backgroundColor = '#c4622a';
-    setTimeout(() => button.style.backgroundColor = '', 300);
-  }
-}
+window.addEventListener("click", e => { if(e.target === modal) closeProductModal(); });
+modalAdd.addEventListener("click", () => { if(!currentProduct) return; addToCart(currentProduct.name, currentProduct.price, currentProduct.offer); modalQty.textContent = cart[currentProduct.name] ? cart[currentProduct.name].qty : 0; });
+modalRemove.addEventListener("click", () => { if(!currentProduct) return; removeFromCart(currentProduct.name); modalQty.textContent = cart[currentProduct.name] ? cart[currentProduct.name].qty : 0; });
 
 // ---------- DOM Ready ----------
 document.addEventListener("DOMContentLoaded", () => {
@@ -243,14 +168,42 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
+    anchor.addEventListener('click', function(e) {
       e.preventDefault();
       const targetId = this.getAttribute('href');
-      if (targetId === '#') return;
+      if(targetId === '#') return;
       const targetElement = document.querySelector(targetId);
-      if (targetElement) {
-        window.scrollTo({ top: targetElement.offsetTop - 80, behavior: 'smooth' });
-      }
+      if(targetElement) window.scrollTo({ top: targetElement.offsetTop - 80, behavior: 'smooth' });
     });
   });
 });
+
+// ---------- WhatsApp Pay ----------
+function sendOrder() {
+  if (Object.keys(cart).length === 0) { alert("Your cart is empty!"); return; }
+
+  let text = "*Order from Millet Bites*\n\n";
+  for (let name in cart) {
+    const item = cart[name];
+    text += `• ${name} x${item.qty} = ₹${(item.price*item.qty).toFixed(2)}${item.offer ? ` (${item.offer})` : ''}\n`;
+  }
+
+  const total = Object.keys(cart).reduce((sum,name) => sum + cart[name].price*cart[name].qty, 0);
+  text += `\n*Total: ₹${total.toFixed(2)}*`;
+
+  for (let k in cart) delete cart[k];
+  updateCart();
+  products.forEach(p => updateQty(p.name));
+  toggleCartPanel();
+
+  window.open(`https://wa.me/919949840365?text=${encodeURIComponent(text)}`, "_blank");
+}
+
+// ---------- Button flash ----------
+function flashButton(name, price) {
+  const button = document.querySelector(`button[onclick="addToCart('${name}', ${price})"]`);
+  if(button) {
+    button.style.backgroundColor = '#c4622a';
+    setTimeout(()=>button.style.backgroundColor = '', 300);
+  }
+}
