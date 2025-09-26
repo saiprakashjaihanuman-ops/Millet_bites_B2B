@@ -1,3 +1,4 @@
+
 /* ---------- Global ---------- */
 * {
   box-sizing: border-box;
@@ -30,7 +31,7 @@ header {
   color: white;
   padding: 15px 25px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   position: sticky;
   top: 0;
