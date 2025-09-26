@@ -262,7 +262,7 @@ nav a:hover::after {
 /* Offer Badge */
 .offer-badge {
   position: absolute;
-  top: 10px;
+  top: 20px;
   left: -40px;
   background: #ff4c4c;
   color: white;
