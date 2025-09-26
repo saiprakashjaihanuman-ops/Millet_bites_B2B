@@ -1,56 +1,113 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Millet Bites</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="bites.png">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- ---------- Header ---------- -->
-  <header>
-    <h1>Millet Bites</h1>
-    <div class="cart-icon">
-      <img src="cart.png" alt="Cart">
-      <span class="cart-count">0</span>
-    </div>
-  </header>
+  <!-- Overlay -->
+  <div class="overlay" id="overlay"></div>
 
-  <!-- ---------- Hero Section ---------- -->
-  <section class="hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-text">
-      <h2>Millet Bites</h2>
-      <nav class="hero-nav">
+  <!-- Cart Panel -->
+  <div class="cart-panel" id="cartPanel">
+    <div class="cart-panel-header">
+      <h3>Your Cart</h3>
+      <button class="close-cart" id="closeCart" aria-label="Close Cart">&times;</button>
+    </div>
+    <div class="cart-items" id="panel-cart-items">
+      <div class="empty-cart">Your cart is empty</div>
+    </div>
+    <div class="cart-summary"><p>Total: ₹0.00</p></div>
+    <div class="cart-buttons">
+      <button onclick="sendOrder()">Pay Now</button>
+      <button class="clear">Clear Cart</button>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <a href="#home" class="logo"><h1>Millet Bites</h1></a>
+    <div class="header-right">
+      <nav>
         <a href="#menu">Menu</a>
         <a href="#contact">Contact</a>
       </nav>
+      <div class="cart-icon">
+        <img src="cart.png" alt="Cart" class="cart-icon-img">
+        <span class="cart-count">0</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-text">
+      <h2>Healthy & Tasty Millet Snacks</h2>
+      <p>Nutritious bites for every occasion</p>
+      <a href="#menu" class="hero-btn">Shop Now</a>
     </div>
   </section>
 
-  <!-- ---------- Menu Section ---------- -->
+  <!-- Menu Section -->
   <section id="menu" class="menu">
-    <h2 class="menu-header">Our Menu</h2>
-    <div class="product-grid">
-      <!-- product cards will be rendered here -->
+    <div class="menu-header">
+      <h2>Our Menu</h2>
+      <div class="cart-icon">
+        <img src="cart.png" alt="Cart" class="cart-icon-img">
+        <span class="cart-count">0</span>
+      </div>
     </div>
+    <div class="product-grid" id="product-grid"></div>
   </section>
 
-  <!-- ---------- Contact Section ---------- -->
+  <!-- Contact -->
   <section id="contact" class="contact">
     <h2>Contact Us</h2>
+    <p>We’d love to hear from you:</p>
     <div class="contact-icons">
-      <a href="https://wa.me/919949840365" target="_blank"><img src="whatsapp.png" alt="WhatsApp"></a>
-      <a href="mailto:info@milletbites.com"><img src="email.png" alt="Email"></a>
+      <a href="https://wa.me/919949840365" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
+      </a>
+      <a href="https://instagram.com/vizagMilletBites" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
+      </a>
+      <a href="tel:+919949840365">
+        <img src="https://cdn-icons-png.flaticon.com/512/724/724664.png" alt="Phone">
+      </a>
     </div>
   </section>
 
-  <!-- ---------- Footer ---------- -->
+  <!-- Footer -->
   <footer>
     <p>&copy; 2025 Millet Bites. All rights reserved.</p>
   </footer>
+
+  <!-- Product Modal -->
+  <div class="modal" id="productModal">
+    <div class="modal-content">
+      <button id="closeProductModal" aria-label="Close Product">&times;</button>
+      <img id="modalImage" alt="Product">
+      <h2 id="modalName"></h2>
+      <p id="modalPrice"></p>
+      <p id="modalDescription"></p>
+      <div class="quantity-controls">
+        <button id="modalRemoveBtn" aria-label="Remove One">-</button>
+        <span id="modalQty">0</span>
+        <button id="modalAddBtn" aria-label="Add One">+</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- WhatsApp Floating Button -->
+  <a href="https://wa.me/919949840365" target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp">💬</a>
 
   <script src="script.js"></script>
 </body>
