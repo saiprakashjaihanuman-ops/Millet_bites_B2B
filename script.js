@@ -1,16 +1,11 @@
 // ---------- Product Data ----------
 const products = [
-  { name: "Ragi Mixture", image: "Ragi Mixture.jpeg", price: 360, description: "Crunchy and wholesome Ragi mixture.", offer: "" },
-  { name: "Ragi Chegodilu", image: "Ragi Chegodilu.jpeg", price: 360, description: "Traditional chegodilu made from ragi.", offer: "Fast Selling" },
-  { name: "Ragi Murukkulu", image: "Ragi Murukkulu.jpeg", price: 360, description: "Crispy murukkulu with millet goodness.", offer: "" },
-  { name: "Jowar Mixture", image: "Jowar Mixture.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "" },
-  { name: "Jowar Murukkulu", image: "Jowar Murukkulu.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "" },
-  { name: "Jowar Ribbon Pakodi", image: "Jowar Ribbon Pakodi.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "Fast Selling" },
-  { name: "Arikalu Jantikalu", image: "Arikalu Jantikalu.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "" },
-  { name: "Samalu Boondi", image: "Samalu Boondi.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "Fast Selling" },
-  { name: "Foxtail Sev", image: "Foxtail Sev.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "Fast Selling" },
-  { name: "Dry Fruit Laddu", image: "Dry Fruit Laddu.jpeg", price: 960, description: "Rich laddus with dry fruits.", offer: "Fast Selling" },
-  { name: "Cashew Bar", image: "Cashew Bar.jpeg", price: 150, description: "Crunchy cashew bars, great snack.", offer: "" }
+  { name: "Ragi Mixture", image: "Ragi Mixture.jpeg", price: 360, description: "Crunchy and wholesome Ragi mixture.", offer: "10% off", unit: "250g" },
+  { name: "Ragi Chegodilu", image: "Ragi Chegodilu.jpeg", price: 360, description: "Traditional chegodilu made from ragi.", offer: "Buy 2 get 1 free", unit: "500g" },
+  { name: "Ragi Murukkulu", image: "Ragi Murukkulu.jpeg", price: 360, description: "Crispy murukkulu with millet goodness.", offer: "₹50 off", unit: "250g" },
+  { name: "Jowar Mixture", image: "Jowar Mixture.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "", unit: "1kg" },
+  { name: "Jowar Murukkulu", image: "Jowar Murukkulu.jpeg", price: 360, description: "Light and tasty jowar mixture.", offer: "", unit: "500g" },
+  { name: "Cashew Bar", image: "Cashew Bar.jpeg", price: 150, description: "Crunchy cashew bars, great snack.", offer: "₹20 off", unit: "1 bar" }
 ];
 
 const cart = {};
@@ -20,7 +15,7 @@ const safeId = name => name.replace(/\s+/g, '_');
 function renderProducts() {
   const grid = document.getElementById("product-grid");
   grid.innerHTML = "";
-
+  
   products.forEach(p => {
     const id = safeId(p.name);
     const card = document.createElement("div");
@@ -29,22 +24,23 @@ function renderProducts() {
       ${p.offer ? `<div class="offer-badge">${p.offer}</div>` : ''}
       <img src="${p.image}" alt="${p.name}" loading="lazy">
       <h4>${p.name}</h4>
-      <p>₹${p.price}</p>
+      <p>₹${p.price} / ${p.unit}</p>
       <div class="quantity-controls">
         <button onclick="removeFromCart('${p.name}')" aria-label="Remove one ${p.name}">-</button>
-        <span id="qty-${id}">${cart[p.name] ? cart[p.name].qty : 0}</span>
+        <span id="qty-${id}">${cart[p.name] ? cart[p.name].qty + ' ' + p.unit : '0 ' + p.unit}</span>
         <button onclick="addToCart('${p.name}', ${p.price}, '${p.offer}')" aria-label="Add one ${p.name}">+</button>
       </div>`;
     grid.appendChild(card);
-
+    
     card.querySelector('img').addEventListener('click', () => openProductModal(p));
     card.querySelector('h4').addEventListener('click', () => openProductModal(p));
   });
 }
 
 // ---------- Cart Functions ----------
-function addToCart(name, price, offer = "") {
-  if (!cart[name]) cart[name] = { qty: 0, price, offer };
+function addToCart(name, price, offer) {
+  const product = products.find(p => p.name === name);
+  if (!cart[name]) cart[name] = { qty: 0, price, unit: product.unit, offer: product.offer };
   cart[name].qty++;
   updateCart();
   updateQty(name);
@@ -61,7 +57,8 @@ function removeFromCart(name) {
 
 function updateQty(name) {
   const el = document.getElementById("qty-" + safeId(name));
-  if (el) el.textContent = cart[name] ? cart[name].qty : 0;
+  const product = products.find(p => p.name === name);
+  if (el) el.textContent = cart[name] ? `${cart[name].qty} ${product.unit}` : `0 ${product.unit}`;
 }
 
 function updateCart() {
@@ -69,39 +66,23 @@ function updateCart() {
   let html = "";
   let total = 0;
   const keys = Object.keys(cart);
-
   if (keys.length === 0) {
     container.innerHTML = '<div class="empty-cart">Your cart is empty</div>';
     document.querySelector(".cart-summary p").textContent = "Total: ₹0.00";
     updateCartCount();
     return;
   }
-
   keys.forEach(name => {
     const item = cart[name];
-    let effectivePrice = item.price;
-
-    if (item.offer && item.offer.includes('%')) {
-      const percent = parseFloat(item.offer);
-      effectivePrice = item.price * (1 - percent / 100);
-    }
-
-    if (item.offer && item.offer.includes('₹')) {
-      const flat = parseFloat(item.offer.replace('₹',''));
-      effectivePrice = item.price - flat;
-    }
-
-    const itemTotal = effectivePrice * item.qty;
+    const itemTotal = item.price * item.qty;
     total += itemTotal;
-
     html += `
       <div class="cart-item">
         <span>${name}</span>
-        <span>x${item.qty}</span>
+        <span>x${item.qty} ${item.unit}</span>
         <span>₹${itemTotal.toFixed(2)}</span>
       </div>`;
   });
-
   container.innerHTML = html;
   document.querySelector(".cart-summary p").textContent = `Total: ₹${total.toFixed(2)}`;
   updateCartCount();
@@ -135,9 +116,9 @@ function openProductModal(p) {
   modalImg.src = p.image;
   modalImg.alt = p.name;
   modalName.textContent = p.name;
-  modalPrice.textContent = "₹" + p.price;
+  modalPrice.textContent = `₹${p.price} / ${p.unit}`;
   modalDescription.textContent = p.description + (p.offer ? ` (${p.offer})` : '');
-  modalQty.textContent = cart[p.name] ? cart[p.name].qty : 0;
+  modalQty.textContent = cart[p.name] ? `${cart[p.name].qty} ${p.unit}` : `0 ${p.unit}`;
   modal.style.display = "flex";
   document.body.style.overflow = "hidden";
 }
@@ -149,24 +130,21 @@ function closeProductModal() {
 
 closeModal.addEventListener("click", closeProductModal);
 window.addEventListener("click", e => { if(e.target === modal) closeProductModal(); });
-modalAdd.addEventListener("click", () => { if(!currentProduct) return; addToCart(currentProduct.name, currentProduct.price, currentProduct.offer); modalQty.textContent = cart[currentProduct.name] ? cart[currentProduct.name].qty : 0; });
-modalRemove.addEventListener("click", () => { if(!currentProduct) return; removeFromCart(currentProduct.name); modalQty.textContent = cart[currentProduct.name] ? cart[currentProduct.name].qty : 0; });
+modalAdd.addEventListener("click", () => { if(!currentProduct) return; addToCart(currentProduct.name, currentProduct.price); modalQty.textContent = cart[currentProduct.name] ? `${cart[currentProduct.name].qty} ${currentProduct.unit}` : `0 ${currentProduct.unit}`; });
+modalRemove.addEventListener("click", () => { if(!currentProduct) return; removeFromCart(currentProduct.name); modalQty.textContent = cart[currentProduct.name] ? `${cart[currentProduct.name].qty} ${currentProduct.unit}` : `0 ${currentProduct.unit}`; });
 
 // ---------- DOM Ready ----------
 document.addEventListener("DOMContentLoaded", () => {
   renderProducts();
-
   document.getElementById("cartIcon").addEventListener("click", toggleCartPanel);
   document.getElementById("closeCart").addEventListener("click", toggleCartPanel);
   document.getElementById("overlay").addEventListener("click", toggleCartPanel);
-
   document.querySelector(".clear").addEventListener("click", () => {
-    for (let k in cart) delete cart[k];
+    for(let k in cart) delete cart[k];
     updateCart();
     products.forEach(p => updateQty(p.name));
     toggleCartPanel();
   });
-
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       e.preventDefault();
@@ -178,32 +156,28 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// ---------- WhatsApp Pay ----------
+// ---------- WhatsApp Order ----------
 function sendOrder() {
-  if (Object.keys(cart).length === 0) { alert("Your cart is empty!"); return; }
-
+  if(Object.keys(cart).length === 0) { alert("Your cart is empty!"); return; }
   let text = "*Order from Millet Bites*\n\n";
-  for (let name in cart) {
+  for(let name in cart) {
     const item = cart[name];
-    text += `• ${name} x${item.qty} = ₹${(item.price*item.qty).toFixed(2)}${item.offer ? ` (${item.offer})` : ''}\n`;
+    text += `• ${name} x${item.qty} ${item.unit} = ₹${(item.price*item.qty).toFixed(2)}${item.offer ? ` (${item.offer})` : ''}\n`;
   }
-
-  const total = Object.keys(cart).reduce((sum,name) => sum + cart[name].price*cart[name].qty, 0);
+  const total = Object.keys(cart).reduce((sum,name)=>sum+cart[name].price*cart[name].qty,0);
   text += `\n*Total: ₹${total.toFixed(2)}*`;
-
-  for (let k in cart) delete cart[k];
+  for(let k in cart) delete cart[k];
   updateCart();
   products.forEach(p => updateQty(p.name));
   toggleCartPanel();
-
   window.open(`https://wa.me/919949840365?text=${encodeURIComponent(text)}`, "_blank");
 }
 
-// ---------- Button flash ----------
+// ---------- Button Flash ----------
 function flashButton(name, price) {
   const button = document.querySelector(`button[onclick="addToCart('${name}', ${price})"]`);
   if(button) {
     button.style.backgroundColor = '#c4622a';
-    setTimeout(()=>button.style.backgroundColor = '', 300);
+    setTimeout(()=>button.style.backgroundColor='',300);
   }
 }
