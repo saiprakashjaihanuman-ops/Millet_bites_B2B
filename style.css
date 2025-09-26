@@ -131,24 +131,6 @@ nav a:hover {
   color: #fff;
 }
 
-.hero img {
-  max-width: 280px;   /* limit width */
-  height: auto;
-  margin-left: 40px;  /* spacing from text */
-}
-
-@media (max-width: 768px) {
-  .hero {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .hero img {
-    max-width: 10px;  /* smaller on mobile/tablet */
-    margin: 20px 0 0;
-  }
-}
-
 /* ---------- Product Grid ---------- */
 .products {
   padding: 80px 20px;
