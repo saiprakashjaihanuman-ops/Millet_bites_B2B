@@ -77,7 +77,12 @@ function updateCart(){
   keys.forEach(name=>{
     const item=cart[name]; 
     total+=item.price*item.qty; 
-    html+=`<div class="cart-item"><span>${name}</span><span>x${item.qty}</span><span>₹${(item.price*item.qty).toFixed(2)}</span></div>`;
+    html+=`
+      <div class="cart-item">
+        <span>${name}</span>
+        <span>x${item.qty}</span>
+        <span>₹${(item.price*item.qty).toFixed(2)}</span>
+      </div>`;
   });
   container.innerHTML=html; 
   document.querySelector(".cart-summary p").textContent=`Total: ₹${total.toFixed(2)}`; 
@@ -122,6 +127,40 @@ let currentProduct=null;
 
 function openProductModal(p){
   currentProduct=p;
-  modalImg.src=p.image; modalImg.alt=p.name;
+  modalImg.src=p.image;
+  modalImg.alt=p.name;
   modalName.textContent=p.name;
- 
+  modalPrice.textContent="₹"+p.price;
+  modalDescription.textContent=p.description;
+  modalQty.textContent=cart[p.name]?cart[p.name].qty:0;
+  modal.style.display="flex";
+}
+
+closeModal.addEventListener("click",()=>modal.style.display="none");
+window.addEventListener("click",e=>{ if(e.target===modal) modal.style.display="none"; });
+
+modalAdd.addEventListener("click",()=>{ 
+  if(!currentProduct) return; 
+  addToCart(currentProduct.name,currentProduct.price); 
+  modalQty.textContent=cart[currentProduct.name]?cart[currentProduct.name].qty:0; 
+  updateQty(currentProduct.name);
+});
+
+modalRemove.addEventListener("click",()=>{ 
+  if(!currentProduct) return; 
+  removeFromCart(currentProduct.name); 
+  modalQty.textContent=cart[currentProduct.name]?cart[currentProduct.name].qty:0; 
+  updateQty(currentProduct.name);
+});
+
+// ---------- WhatsApp Pay ----------
+function sendOrder(){
+  if(Object.keys(cart).length===0){ alert("Cart empty!"); return;}
+  let text="*Order from Millet Bites*\n";
+  for(let name in cart){ 
+    text+=`${name} x${cart[name].qty} = ₹${(cart[name].qty*cart[name].price).toFixed(2)}\n`; 
+  }
+  const total=Object.keys(cart).reduce((sum,name)=>sum+cart[name].qty*cart[name].price,0);
+  text+="Total: ₹"+total.toFixed(2);
+  window.open(`https://wa.me/919949840365?text=${encodeURIComponent(text)}`,"_blank");
+}
