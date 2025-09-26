@@ -1,23 +1,25 @@
+// ---------- Product Data ----------
 const products = [
   { name: "Combo Pack 1", image: "b1.jpeg", price: 999, description:"Premium combo - assorted millet snacks." },
   { name: "Combo Pack 2", image: "b2.jpeg", price: 299, description:"Tasty combo with crunchy favourites." },
   { name: "Combo Pack 3", image: "b3.jpeg", price: 399, description:"Value combo for daily snacking." },
   { name: "Combo Pack 4", image: "b4.jpeg", price: 599, description:"Assorted premium millet selections." },
-  { name: "Ragi Mixture", image: "Ragi Mixture.jpeg", price: 60, description:"Crunchy and wholesome Ragi mixture." },
-  { name: "Ragi Chegodilu", image: "Ragi Chegodilu.jpeg", price: 60, description:"Traditional chegodilu made from ragi." },
-  { name: "Ragi Murukkulu", image: "Ragi Murukkulu.jpeg", price: 60, description:"Crispy murukkulu with millet goodness." },
-  { name: "Jowar Mixture", image: "Jowar Mixture.jpeg", price: 60, description:"Light and tasty jowar mixture." },
-  { name: "Dry Fruit Mixture", image: "Dry Fruit Mixture.jpeg", price: 180, description:"Energy-dense dry fruit mix with millets." },
-  { name: "Dry Fruit Laddu", image: "Dry Fruit Laddu.jpeg", price: 300, description:"Rich laddus with dry fruits." },
-  { name: "Cashew Bar", image: "Cashew Bar.jpeg", price: 200, description:"Crunchy cashew bars, great snack." },
-  { name: "Panchadara Gavvalu", image: "Panchadara Gavvalu.jpg", price: 100, description:"Sweet gavvalu made with panchadara." },
-  { name: "Bellam Gavvalu", image: "Bellam Gavvalu.jpeg", price: 100, description:"Bellam (jaggery) gavvalu." },
-  { name: "Hot Gavvalu", image: "Hot Gavvalu.jpeg", price: 100, description:"Spicy hot gavvalu for spicy lovers." }
+  { name: "Ragi Mixture", image: "Ragi-Mixture.jpeg", price: 60, description:"Crunchy and wholesome Ragi mixture." },
+  { name: "Ragi Chegodilu", image: "Ragi-Chegodilu.jpeg", price: 60, description:"Traditional chegodilu made from ragi." },
+  { name: "Ragi Murukkulu", image: "Ragi-Murukkulu.jpeg", price: 60, description:"Crispy murukkulu with millet goodness." },
+  { name: "Jowar Mixture", image: "Jowar-Mixture.jpeg", price: 60, description:"Light and tasty jowar mixture." },
+  { name: "Dry Fruit Mixture", image: "Dry-Fruit-Mixture.jpeg", price: 180, description:"Energy-dense dry fruit mix with millets." },
+  { name: "Dry Fruit Laddu", image: "Dry-Fruit-Laddu.jpeg", price: 300, description:"Rich laddus with dry fruits." },
+  { name: "Cashew Bar", image: "Cashew-Bar.jpeg", price: 200, description:"Crunchy cashew bars, great snack." },
+  { name: "Panchadara Gavvalu", image: "Panchadara-Gavvalu.jpg", price: 100, description:"Sweet gavvalu made with panchadara." },
+  { name: "Bellam Gavvalu", image: "Bellam-Gavvalu.jpeg", price: 100, description:"Bellam (jaggery) gavvalu." },
+  { name: "Hot Gavvalu", image: "Hot-Gavvalu.jpeg", price: 100, description:"Spicy hot gavvalu for spicy lovers." }
 ];
 
 const cart = {};
 const safeId = name => name.replace(/\s+/g,'_');
 
+// ---------- Render Products ----------
 function renderProducts() {
   const grid = document.getElementById("product-grid");
   grid.innerHTML="";
@@ -40,12 +42,14 @@ function renderProducts() {
   });
 }
 
+// ---------- Cart Functions ----------
 function addToCart(name,price){ 
   if(!cart[name]) cart[name]={qty:0,price}; 
   cart[name].qty++; 
   updateCart(); 
   updateQty(name);
 }
+
 function removeFromCart(name){ 
   if(!cart[name]) return; 
   cart[name].qty--; 
@@ -53,10 +57,12 @@ function removeFromCart(name){
   updateCart(); 
   updateQty(name);
 }
+
 function updateQty(name){ 
   const el=document.getElementById("qty-"+safeId(name)); 
   if(el) el.textContent=cart[name]?cart[name].qty:0; 
 }
+
 function updateCart(){
   const container=document.getElementById("panel-cart-items"); 
   let html="",total=0;
@@ -81,6 +87,7 @@ function updateCart(){
   document.querySelector(".cart-summary p").textContent=`Total: ₹${total.toFixed(2)}`; 
   updateCartCount();
 }
+
 function updateCartCount(){ 
   const count=Object.values(cart).reduce((sum,item)=>sum+item.qty,0); 
   document.querySelectorAll(".cart-count").forEach(el=>el.textContent=count); 
@@ -91,6 +98,7 @@ function toggleCartPanel(){
   document.getElementById("overlay").classList.toggle("active"); 
 }
 
+// ---------- DOM Ready ----------
 document.addEventListener("DOMContentLoaded",()=>{
   renderProducts();
   document.querySelectorAll(".cart-icon").forEach(el=>el.addEventListener("click",toggleCartPanel));
@@ -100,11 +108,11 @@ document.addEventListener("DOMContentLoaded",()=>{
     for(let k in cart) delete cart[k]; 
     updateCart(); 
     products.forEach(p=>updateQty(p.name));
-    toggleCartPanel(); // ✅ auto-close panel after clearing
+    toggleCartPanel();
   });
 });
 
-/* ---------- Product Modal ---------- */
+// ---------- Product Modal ----------
 const modal=document.getElementById("productModal");
 const modalImg=document.getElementById("modalImage");
 const modalName=document.getElementById("modalName");
@@ -126,22 +134,25 @@ function openProductModal(p){
   modalQty.textContent=cart[p.name]?cart[p.name].qty:0;
   modal.style.display="flex";
 }
+
 closeModal.addEventListener("click",()=>modal.style.display="none");
+window.addEventListener("click",e=>{ if(e.target===modal) modal.style.display="none"; });
+
 modalAdd.addEventListener("click",()=>{ 
   if(!currentProduct) return; 
   addToCart(currentProduct.name,currentProduct.price); 
   modalQty.textContent=cart[currentProduct.name]?cart[currentProduct.name].qty:0; 
-  updateQty(currentProduct.name); // ✅ sync card
+  updateQty(currentProduct.name);
 });
+
 modalRemove.addEventListener("click",()=>{ 
   if(!currentProduct) return; 
   removeFromCart(currentProduct.name); 
   modalQty.textContent=cart[currentProduct.name]?cart[currentProduct.name].qty:0; 
-  updateQty(currentProduct.name); // ✅ sync card
+  updateQty(currentProduct.name);
 });
-window.addEventListener("click",e=>{ if(e.target===modal) modal.style.display="none"; });
 
-/* ---------- WhatsApp Pay ---------- */
+// ---------- WhatsApp Pay ----------
 function sendOrder(){
   if(Object.keys(cart).length===0){ alert("Cart empty!"); return;}
   let text="*Order from Millet Bites*\n";
@@ -150,5 +161,5 @@ function sendOrder(){
   }
   const total=Object.keys(cart).reduce((sum,name)=>sum+cart[name].qty*cart[name].price,0);
   text+="Total: ₹"+total.toFixed(2);
-  window.open(`https://wa.me/919949840365?text=${encodeURIComponent(text)}`,"_blank"); // ✅ encode message
+  window.open(`https://wa.me/919949840365?text=${encodeURIComponent(text)}`,"_blank");
 }
