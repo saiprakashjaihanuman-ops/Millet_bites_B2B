@@ -204,7 +204,7 @@ function sendOrder() {
   }
 
   if (!canPayNow()) {
-    alert("❌ Minimum order required:\n\n• 5 Kg (only Kgs)\n• 10 Bars (only Bars)\n• 4 Kg + 10 Bars (mix)\n\nPlease adjust your order.");
+    alert("❌ Minimum order required:\n\n• 5 Kg\n• 10 Cashew Bars\n• 4 Kg + 10 Bars\n\nPlease adjust your order.");
     return;
   }
 
