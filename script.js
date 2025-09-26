@@ -262,26 +262,28 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-  window.addEventListener("load", function () {
-    const popup = document.getElementById("popup");
-    const closeBtn = document.querySelector(".popup-close");
+window.addEventListener("load", function () {
+  const popup = document.getElementById("popup");
+  const closeBtn = document.querySelector(".popup-close");
+  const shopBtn = document.querySelector(".hero-btn"); // Shop Now button
 
-    // Show popup on page load
-    popup.style.display = "flex";
+  // Show popup on page load
+  popup.style.display = "flex";
 
-    // Close when clicking X
-    closeBtn.addEventListener("click", function () {
-      popup.style.display = "none";
-    });
-    
-    document.querySelector(".hero-btn").addEventListener("click", function() {
-    document.getElementById("popup").style.display = "none";
-    });
-
-    // Close when clicking outside
-    popup.addEventListener("click", function (e) {
-      if (e.target === popup) {
-        popup.style.display = "none";
-      }
-    });
+  // Close when clicking X
+  closeBtn.addEventListener("click", function () {
+    popup.style.display = "none";
   });
+
+  // Close when clicking outside
+  popup.addEventListener("click", function (e) {
+    if (e.target === popup) {
+      popup.style.display = "none";
+    }
+  });
+
+  // Close when clicking Shop Now
+  shopBtn.addEventListener("click", function () {
+    popup.style.display = "none";
+  });
+});
