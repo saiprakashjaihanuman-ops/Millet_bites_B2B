@@ -264,7 +264,7 @@ nav a:hover::after {
   position: absolute;
   top: 10px;
   left: -40px;
-  background: #e07b39;
+  background: #ff4c4c;
   color: white;
   padding: 5px 50px;
   transform: rotate(-45deg);
