@@ -16,7 +16,7 @@ const products = [
 const cart = {};
 const safeId = name => name.replace(/\s+/g, '_');
 
-// ---------- Helper: format quantity with unit (handles bars and kg properly) ----------
+// ---------- Helper: format quantity with unit ----------
 function formatQty(qty, unit) {
   if (qty === 0) {
     return `0 ${unit.replace(/^\d+\s*/, '')}`;
@@ -26,12 +26,11 @@ function formatQty(qty, unit) {
   let firstWord = words[0].replace(/^\d+/, ''); 
   const rest = words.slice(1).join(' ');
 
-  // Pluralize carefully
+  // Pluralize only when needed
   if (qty > 1) {
-    if (!firstWord.endsWith('s')) {
-      // handle some common irregulars
-      if (firstWord.toLowerCase() === "bar") firstWord = "bars";
-      else if (firstWord.toLowerCase() === "kg") firstWord = "kgs";
+    if (!firstWord.toLowerCase().endsWith('s')) {
+      if (firstWord.toLowerCase() === "bar") firstWord = "Bars";
+      else if (firstWord.toLowerCase() === "kg") firstWord = "Kgs";
       else firstWord += "s";
     }
   }
@@ -210,4 +209,10 @@ function flashButton(name, price) {
     button.style.backgroundColor = '#c4622a';
     setTimeout(()=>button.style.backgroundColor='',300);
   }
+}
+
+// ---------- Cart Panel Toggle ----------
+function toggleCartPanel() {
+  document.getElementById("cartPanel").classList.toggle("active");
+  document.getElementById("overlay").classList.toggle("active");
 }
