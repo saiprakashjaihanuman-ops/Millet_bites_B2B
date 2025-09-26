@@ -18,20 +18,24 @@ const safeId = name => name.replace(/\s+/g, '_');
 
 // ---------- Helper: format quantity with unit (handles bars and kg properly) ----------
 function formatQty(qty, unit) {
-  if (qty === 0) return `0 ${unit.replace(/^\d+\s*/, '')}`; // remove leading number for 0
+  if (qty === 0) {
+    // Remove any leading number
+    return `0 ${unit.replace(/^\d+\s*/, '')}`;
+  }
 
-  // Split first word and the rest
-  let parts = unit.split(' ');
-  let firstWord = parts[0].replace(/^\d+/, ''); // remove leading number
-  let rest = parts.slice(1).join(' ');
+  // Split unit into words
+  const words = unit.split(' ');
+  let firstWord = words[0].replace(/^\d+/, ''); // remove leading number
+  const rest = words.slice(1).join(' ');
 
   // Pluralize first word if qty > 1
   if (qty > 1) {
     if (!firstWord.endsWith('s')) firstWord += 's';
   }
 
-  return `${qty} ${firstWord}${rest ? ' ' + rest : ''}`;
+  return qty + ' ' + firstWord + (rest ? ' ' + rest : '');
 }
+
 
 // ---------- Render Products ----------
 function renderProducts() {
