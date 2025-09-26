@@ -261,3 +261,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+  window.addEventListener("load", function () {
+    const popup = document.getElementById("popup");
+    const closeBtn = document.querySelector(".popup-close");
+
+    // Show popup on page load
+    popup.style.display = "flex";
+
+    // Close when clicking X
+    closeBtn.addEventListener("click", function () {
+      popup.style.display = "none";
+    });
+
+    // Close when clicking outside
+    popup.addEventListener("click", function (e) {
+      if (e.target === popup) {
+        popup.style.display = "none";
+      }
+    });
+  });
