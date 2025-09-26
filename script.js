@@ -16,20 +16,21 @@ const products = [
 const cart = {};
 const safeId = name => name.replace(/\s+/g, '_');
 
-// ---------- Helper: format quantity with unit ----------
+// ---------- Helper: format quantity with unit (handles bars and kg properly) ----------
 function formatQty(qty, unit) {
-  if (qty === 0) return `0 ${unit.replace(/\d+/g,'').trim()}`;
+  if (qty === 0) return `0 ${unit.replace(/^\d+\s*/, '')}`; // remove leading number for 0
 
-  const words = unit.split(' ');
-  let firstWord = words[0].replace(/\d+/g,''); // remove numbers from first word
+  // Split first word and the rest
+  let parts = unit.split(' ');
+  let firstWord = parts[0].replace(/^\d+/, ''); // remove leading number
+  let rest = parts.slice(1).join(' ');
 
-  // pluralize first word if qty > 1
+  // Pluralize first word if qty > 1
   if (qty > 1) {
     if (!firstWord.endsWith('s')) firstWord += 's';
   }
 
-  words[0] = firstWord;
-  return qty + ' ' + words.join(' ');
+  return `${qty} ${firstWord}${rest ? ' ' + rest : ''}`;
 }
 
 // ---------- Render Products ----------
