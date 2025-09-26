@@ -6,6 +6,8 @@
   <title>Millet Bites</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="bites.png">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -16,7 +18,7 @@
   <div class="cart-panel" id="cartPanel">
     <div class="cart-panel-header">
       <h3>Your Cart</h3>
-      <button class="close-cart" id="closeCart">&times;</button>
+      <button class="close-cart" id="closeCart" aria-label="Close Cart">&times;</button>
     </div>
     <div class="cart-items" id="panel-cart-items">
       <div class="empty-cart">Your cart is empty</div>
@@ -90,21 +92,21 @@
   <!-- Product Modal -->
   <div class="modal" id="productModal">
     <div class="modal-content">
-      <button id="closeProductModal">&times;</button>
+      <button id="closeProductModal" aria-label="Close Product">&times;</button>
       <img id="modalImage" alt="Product">
       <h2 id="modalName"></h2>
       <p id="modalPrice"></p>
       <p id="modalDescription"></p>
       <div class="quantity-controls">
-        <button id="modalRemoveBtn">-</button>
+        <button id="modalRemoveBtn" aria-label="Remove One">-</button>
         <span id="modalQty">0</span>
-        <button id="modalAddBtn">+</button>
+        <button id="modalAddBtn" aria-label="Add One">+</button>
       </div>
     </div>
   </div>
 
   <!-- WhatsApp Floating Button -->
-  <a href="https://wa.me/919949840365" target="_blank" class="whatsapp-float">💬</a>
+  <a href="https://wa.me/919949840365" target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp">💬</a>
 
   <script src="script.js"></script>
 </body>
