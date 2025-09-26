@@ -1,9 +1,5 @@
 // ---------- Product Data ----------
 const products = [
-  { name: "Combo Pack 1", image: "b1.jpeg", price: 999, description: "Premium combo - assorted millet snacks." },
-  { name: "Combo Pack 2", image: "b2.jpeg", price: 299, description: "Tasty combo with crunchy favourites." },
-  { name: "Combo Pack 3", image: "b3.jpeg", price: 399, description: "Value combo for daily snacking." },
-  { name: "Combo Pack 4", image: "b4.jpeg", price: 599, description: "Assorted premium millet selections." },
   { name: "Ragi Mixture", image: "Ragi Mixture.jpeg", price: 60, description: "Crunchy and wholesome Ragi mixture." },
   { name: "Ragi Chegodilu", image: "Ragi Chegodilu.jpeg", price: 60, description: "Traditional chegodilu made from ragi." },
   { name: "Ragi Murukkulu", image: "Ragi Murukkulu.jpeg", price: 60, description: "Crispy murukkulu with millet goodness." },
