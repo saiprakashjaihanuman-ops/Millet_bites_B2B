@@ -47,6 +47,7 @@ nav a {
   margin-left: 20px;
   font-weight: 500;
   transition: 0.3s;
+  text-align: center;
 }
 
 nav a:hover {
