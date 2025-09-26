@@ -273,6 +273,10 @@ document.addEventListener("DOMContentLoaded", () => {
     closeBtn.addEventListener("click", function () {
       popup.style.display = "none";
     });
+    
+    document.querySelector(".hero-btn").addEventListener("click", function() {
+    document.getElementById("popup").style.display = "none";
+    });
 
     // Close when clicking outside
     popup.addEventListener("click", function (e) {
