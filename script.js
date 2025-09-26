@@ -4,6 +4,11 @@ const products = [
   { name: "Ragi Chegodilu", image: "Ragi Chegodilu.jpeg", price: 60, description: "Traditional chegodilu made from ragi." },
   { name: "Ragi Murukkulu", image: "Ragi Murukkulu.jpeg", price: 60, description: "Crispy murukkulu with millet goodness." },
   { name: "Jowar Mixture", image: "Jowar Mixture.jpeg", price: 60, description: "Light and tasty jowar mixture." },
+  { name: "Jowar Murukulu", image: "Jowar Murukulu.jpeg", price: 60, description: "Light and tasty jowar mixture." },
+  { name: "Jowar Ribbon Pakodi", image: "Jowar Ribbon Pakodi.jpeg", price: 60, description: "Light and tasty jowar mixture." },
+  { name: "Arikalu Jantikalu", image: "Arikalu Jantikalu.jpeg", price: 60, description: "Light and tasty jowar mixture." },
+  { name: "Samalu Boondi", image: "Samalu Boondi.jpeg", price: 60, description: "Light and tasty jowar mixture." },
+  { name: "Foxtail Sev", image: "Foxtail Sev.jpeg", price: 60, description: "Light and tasty jowar mixture." },
   { name: "Dry Fruit Laddu", image: "Dry Fruit Laddu.jpeg", price: 300, description: "Rich laddus with dry fruits." },
   { name: "Cashew Bar", image: "Cashew Bar.jpeg", price: 200, description: "Crunchy cashew bars, great snack." }
 ];
