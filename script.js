@@ -25,7 +25,7 @@ function renderProducts() {
     const id=safeId(p.name);
     const card=document.createElement("div");
     card.className="product-card";
-    card.innerHTML=`<div class="badge">Best Offer</div>
+    card.innerHTML=`
       <img src="${p.image}" alt="${p.name}">
       <h4>${p.name}</h4>
       <p>₹${p.price}</p>
@@ -100,6 +100,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     for(let k in cart) delete cart[k]; 
     updateCart(); 
     products.forEach(p=>updateQty(p.name));
+    toggleCartPanel(); // ✅ auto-close panel after clearing
   });
 });
 
@@ -130,22 +131,24 @@ modalAdd.addEventListener("click",()=>{
   if(!currentProduct) return; 
   addToCart(currentProduct.name,currentProduct.price); 
   modalQty.textContent=cart[currentProduct.name]?cart[currentProduct.name].qty:0; 
+  updateQty(currentProduct.name); // ✅ sync card
 });
 modalRemove.addEventListener("click",()=>{ 
   if(!currentProduct) return; 
   removeFromCart(currentProduct.name); 
   modalQty.textContent=cart[currentProduct.name]?cart[currentProduct.name].qty:0; 
+  updateQty(currentProduct.name); // ✅ sync card
 });
 window.addEventListener("click",e=>{ if(e.target===modal) modal.style.display="none"; });
 
 /* ---------- WhatsApp Pay ---------- */
 function sendOrder(){
   if(Object.keys(cart).length===0){ alert("Cart empty!"); return;}
-  let text="*Order from Millet Bites*%0A";
+  let text="*Order from Millet Bites*\n";
   for(let name in cart){ 
-    text+=`${name} x${cart[name].qty} = ₹${(cart[name].qty*cart[name].price).toFixed(2)}%0A`; 
+    text+=`${name} x${cart[name].qty} = ₹${(cart[name].qty*cart[name].price).toFixed(2)}\n`; 
   }
   const total=Object.keys(cart).reduce((sum,name)=>sum+cart[name].qty*cart[name].price,0);
   text+="Total: ₹"+total.toFixed(2);
-  window.open(`https://wa.me/919949840365?text=${text}`,"_blank");
+  window.open(`https://wa.me/919949840365?text=${encodeURIComponent(text)}`,"_blank"); // ✅ encode message
 }
