@@ -51,7 +51,7 @@ function renderProducts() {
       ${p.offer ? `<div class="offer-badge">${p.offer}</div>` : ''}
       <img src="${p.image}" alt="${p.name}" loading="lazy">
       <h4>${p.name}</h4>
-      <p>₹${p.price} / ${p.unit}</p>
+      <p>${p.unit} - Rs ${p.price} /-</p>
       <div class="quantity-controls">
         <button onclick="removeFromCart('${p.name}')" aria-label="Remove one ${p.name}">-</button>
         <span id="qty-${id}">${cart[p.name] ? formatQty(cart[p.name].qty, p.unit) : formatQty(0, p.unit)}</span>
@@ -137,7 +137,7 @@ function openProductModal(p) {
   modalImg.src = p.image;
   modalImg.alt = p.name;
   modalName.textContent = p.name;
-  modalPrice.textContent = `₹${p.price} / ${p.unit}`;
+  modalPrice.textContent = `${p.unit} - Rs ${p.price} /-`;
   modalDescription.textContent = p.description + (p.offer ? ` (${p.offer})` : '');
   modalQty.textContent = cart[p.name] ? formatQty(cart[p.name].qty, p.unit) : formatQty(0, p.unit);
   modal.style.display = "flex";
